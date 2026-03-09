@@ -1,0 +1,1325 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SPIN COMMAND v2 — Keiser M3i</title>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;400;600;700;900&family=Barlow:wght@300;400;500&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root {
+  font-size: 18px;
+  --z1:#00cfff; --z2:#39e75f; --z3:#ffd600; --z4:#ff7a00; --z5:#ff1f40;
+  --bg:#090b10; --surface:#0f1420; --card:#141928; --border:#1e2840;
+  --text:#e8edf5; --muted:#5a6480; --mono:'Share Tech Mono',monospace;
+  --display:'Barlow Condensed',sans-serif; --body:'Barlow',sans-serif;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{background:var(--bg);color:var(--text);font-family:var(--body);min-height:100vh;overflow-x:hidden;}
+body::before{content:'';position:fixed;inset:0;background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.05) 2px,rgba(0,0,0,0.05) 4px);pointer-events:none;z-index:1000;}
+
+/* ── HEADER ── */
+header{display:flex;align-items:center;justify-content:space-between;padding:10px 20px;border-bottom:1px solid var(--border);background:var(--surface);position:sticky;top:0;z-index:200;}
+.logo{font-family:var(--display);font-weight:900;font-size:2rem;letter-spacing:.15em;text-transform:uppercase;}
+.logo span{color:var(--z1);}
+.bike-tag{font-family:var(--mono);font-size:.75rem;color:var(--muted);letter-spacing:.2em;margin-top:1px;}
+.header-right{display:flex;align-items:center;gap:12px;}
+.wall-clock{font-family:var(--mono);font-size:1rem;color:var(--muted);}
+
+/* Spotify button */
+.sp-btn{display:flex;align-items:center;gap:6px;background:#1DB954;border:none;border-radius:3px;color:#000;padding:8px 16px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.88rem;letter-spacing:.12em;text-transform:uppercase;transition:opacity .2s;}
+.sp-btn:hover{opacity:.85;}
+.sp-btn.connected{background:#145e30;color:#1DB954;border:1px solid #1DB954;}
+.sp-btn svg{width:14px;height:14px;fill:currentColor;}
+.sp-status{font-family:var(--mono);font-size:.8rem;color:#1DB954;display:none;}
+
+/* nav tabs */
+.nav-tabs{display:flex;gap:0;border-bottom:1px solid var(--border);}
+.nav-tab{padding:10px 24px;font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;background:none;border-top:none;border-left:none;border-right:none;}
+.nav-tab.active{color:var(--z1);border-bottom-color:var(--z1);}
+.nav-tab:hover:not(.active){color:var(--text);}
+
+/* ── PAGES ── */
+.page{display:none;}
+.page.active{display:block;}
+
+/* ══════════════════════════ INSTRUCTOR PAGE ══════════════════════════ */
+.app{display:grid;grid-template-columns:1fr 320px;grid-template-rows:auto 1fr auto;height:calc(100vh - 97px);}
+
+/* Zone strip */
+.zone-strip{grid-column:1/-1;display:grid;grid-template-columns:repeat(5,1fr);border-bottom:1px solid var(--border);}
+.zone-card{padding:8px 14px 7px;border-right:1px solid var(--border);cursor:pointer;transition:background .2s;position:relative;overflow:hidden;}
+.zone-card:last-child{border-right:none;}
+.zone-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.zone-card.z1::before{background:var(--z1);} .zone-card.z2::before{background:var(--z2);}
+.zone-card.z3::before{background:var(--z3);} .zone-card.z4::before{background:var(--z4);}
+.zone-card.z5::before{background:var(--z5);}
+.zone-card.active.z1{background:rgba(0,207,255,.07);} .zone-card.active.z2{background:rgba(57,231,95,.07);}
+.zone-card.active.z3{background:rgba(255,214,0,.07);} .zone-card.active.z4{background:rgba(255,122,0,.07);}
+.zone-card.active.z5{background:rgba(255,31,64,.07);}
+.zone-label{font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);}
+.zone-card.active.z1 .zone-label{color:var(--z1);} .zone-card.active.z2 .zone-label{color:var(--z2);}
+.zone-card.active.z3 .zone-label{color:var(--z3);} .zone-card.active.z4 .zone-label{color:var(--z4);}
+.zone-card.active.z5 .zone-label{color:var(--z5);}
+.zone-name{font-family:var(--display);font-weight:900;font-size:1.15rem;letter-spacing:.05em;text-transform:uppercase;margin:1px 0;}
+.zone-card.z1 .zone-name{color:var(--z1);} .zone-card.z2 .zone-name{color:var(--z2);}
+.zone-card.z3 .zone-name{color:var(--z3);} .zone-card.z4 .zone-name{color:var(--z4);}
+.zone-card.z5 .zone-name{color:var(--z5);}
+.zone-meta{font-family:var(--mono);font-size:.75rem;color:var(--muted);display:flex;gap:8px;flex-wrap:wrap;}
+
+/* Main */
+.main-display{padding:16px 20px;display:flex;flex-direction:column;gap:14px;overflow-y:auto;border-right:1px solid var(--border);}
+
+/* Timer row */
+.timer-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;}
+.timer-block{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 14px;}
+.tb-label{font-family:var(--display);font-weight:600;font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:3px;}
+.tb-value{font-family:var(--mono);font-size:3.2rem;line-height:1;color:var(--text);}
+.timer-block.highlight .tb-value{color:var(--z1);}
+.tb-sub{font-family:var(--body);font-size:.78rem;color:var(--muted);margin-top:3px;}
+
+/* Progress */
+.prog-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:5px;}
+.prog-title{font-family:var(--display);font-weight:600;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.prog-pct{font-family:var(--mono);font-size:.88rem;color:var(--muted);}
+.prog-track{height:5px;background:var(--border);border-radius:3px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:3px;transition:width 1s linear,background .5s;}
+
+/* Timeline */
+.tl-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:7px;}
+.section-title{font-family:var(--display);font-weight:700;font-size:.78rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.tl-track{display:flex;height:44px;border-radius:4px;overflow:hidden;gap:2px;}
+.tl-seg{flex:1;display:flex;align-items:center;justify-content:center;font-family:var(--display);font-weight:700;font-size:.55rem;letter-spacing:.1em;text-transform:uppercase;cursor:pointer;transition:opacity .2s,filter .2s;opacity:.4;position:relative;}
+.tl-seg.done{opacity:.18;} .tl-seg.current{opacity:1;animation:pulse-seg 2s infinite;} .tl-seg.upcoming{opacity:.5;}
+@keyframes pulse-seg{0%,100%{filter:brightness(1);}50%{filter:brightness(1.3);}}
+
+/* Segment detail */
+.segment-detail{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:14px;position:relative;overflow:hidden;}
+.zone-glow{position:absolute;inset:0;opacity:.04;pointer-events:none;transition:background .5s;}
+.sd-top{display:flex;justify-content:space-between;align-items:flex-start;margin-bottom:10px;}
+.sd-zone-badge{display:inline-flex;align-items:center;gap:6px;font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;padding:3px 9px;border-radius:2px;margin-bottom:4px;}
+.sd-seg-name{font-family:var(--display);font-weight:900;font-size:1.8rem;letter-spacing:.03em;text-transform:uppercase;line-height:1.1;}
+.sd-next-label{font-family:var(--mono);font-size:.75rem;color:var(--muted);text-align:right;}
+.sd-next-name{font-family:var(--display);font-weight:600;font-size:1rem;color:var(--muted);text-transform:uppercase;text-align:right;}
+.sd-stats{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;}
+.sd-stat{background:rgba(255,255,255,.03);border:1px solid var(--border);border-radius:3px;padding:7px 9px;}
+.sd-stat-label{font-family:var(--display);font-size:.68rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:2px;}
+.sd-stat-val{font-family:var(--mono);font-size:1.6rem;line-height:1;}
+.sd-stat-unit{font-family:var(--body);font-size:.75rem;color:var(--muted);margin-top:1px;}
+.sd-cue{margin-top:9px;padding:10px 14px;background:rgba(255,255,255,.02);border:1px solid var(--border);border-radius:3px;font-family:var(--body);font-size:1rem;color:var(--muted);font-style:italic;}
+
+/* RPM Gauge */
+.rpm-gauge{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 14px;display:flex;align-items:center;gap:14px;}
+.rpm-big{font-family:var(--mono);font-size:4rem;line-height:1;}
+.rpm-unit-row{font-family:var(--display);font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-top:2px;}
+.rpm-bar-col{flex:1;}
+.rpm-range-label{display:flex;justify-content:space-between;font-family:var(--mono);font-size:.78rem;color:var(--muted);margin-bottom:4px;}
+.rpm-track{height:9px;background:var(--border);border-radius:5px;position:relative;overflow:hidden;}
+.rpm-fill{position:absolute;left:0;top:0;height:100%;border-radius:5px;transition:width .5s,background .5s;}
+.rpm-markers{display:flex;justify-content:space-between;margin-top:4px;font-family:var(--mono);font-size:.7rem;color:var(--muted);}
+
+/* ── MUSIC PANEL ── */
+.music-panel{display:flex;flex-direction:column;overflow:hidden;background:var(--surface);}
+.music-header{padding:12px 14px 9px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.music-header-title{font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);}
+.sp-link-label{font-family:var(--mono);font-size:.75rem;color:var(--muted);}
+.sp-link-label.live{color:#1DB954;}
+
+/* Now playing */
+.now-playing{padding:12px 14px;border-bottom:1px solid var(--border);}
+.np-label{font-family:var(--display);font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:6px;}
+.np-track-art{display:flex;align-items:center;gap:9px;margin-bottom:8px;}
+.np-art{width:42px;height:42px;border-radius:3px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:1.2rem;flex-shrink:0;overflow:hidden;}
+.np-art img{width:100%;height:100%;object-fit:cover;border-radius:3px;}
+.np-info{flex:1;min-width:0;}
+.np-song{font-family:var(--display);font-weight:700;font-size:1.05rem;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.np-artist{font-family:var(--body);font-size:.85rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.np-bpm-tag{font-family:var(--mono);font-size:.75rem;color:var(--z3);margin-top:1px;}
+.np-progress{height:3px;background:var(--border);border-radius:2px;margin-bottom:7px;}
+.np-prog-fill{height:100%;border-radius:2px;background:#1DB954;transition:width 1s linear;}
+.np-controls{display:flex;align-items:center;gap:7px;justify-content:center;}
+.np-btn{background:none;border:1px solid var(--border);border-radius:2px;color:var(--text);padding:7px 13px;cursor:pointer;font-family:var(--mono);font-size:.82rem;transition:all .15s;}
+.np-btn:hover{background:var(--border);}
+.np-btn.play-btn{border-color:#1DB954;color:#1DB954;padding:5px 14px;}
+.np-btn.play-btn:hover{background:rgba(29,185,84,.12);}
+.np-vol{display:flex;align-items:center;gap:5px;margin-top:7px;}
+.np-vol-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);width:20px;}
+.np-vol input{flex:1;accent-color:#1DB954;height:3px;}
+
+/* Spotify connect overlay */
+.sp-connect-banner{padding:12px 14px;background:rgba(29,185,84,.07);border:1px solid rgba(29,185,84,.2);border-radius:3px;margin:10px 14px;text-align:center;}
+.sp-connect-banner p{font-family:var(--body);font-size:.75rem;color:var(--muted);margin-bottom:8px;line-height:1.5;}
+.sp-connect-btn{background:#1DB954;border:none;border-radius:3px;color:#000;padding:7px 16px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.12em;text-transform:uppercase;width:100%;transition:opacity .2s;}
+.sp-connect-btn:hover{opacity:.85;}
+.sp-client-input{width:100%;background:var(--card);border:1px solid var(--border);border-radius:3px;color:var(--text);padding:6px 9px;font-family:var(--mono);font-size:.7rem;margin-bottom:6px;}
+.sp-client-input::placeholder{color:var(--muted);}
+
+/* Playlist selector */
+.playlist-section{padding:0 14px 8px;}
+.pl-select{width:100%;background:var(--card);border:1px solid var(--border);border-radius:3px;color:var(--text);padding:6px 9px;font-family:var(--display);font-weight:600;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;margin-top:8px;cursor:pointer;}
+.pl-select option{background:var(--card);}
+
+/* Queue */
+.queue-section{flex:1;overflow-y:auto;padding:0;}
+.qzg-header{padding:9px 14px 7px;font-family:var(--display);font-size:.75rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);background:var(--surface);border-bottom:1px solid var(--border);position:sticky;top:0;z-index:1;}
+.queue-item{display:flex;align-items:center;gap:8px;padding:7px 14px;border-bottom:1px solid rgba(30,40,64,.5);cursor:pointer;transition:background .15s;}
+.queue-item:hover{background:rgba(255,255,255,.03);}
+.queue-item.active{background:rgba(255,255,255,.05);}
+.qi-num{font-family:var(--mono);font-size:.6rem;color:var(--muted);width:14px;text-align:center;flex-shrink:0;}
+.qi-art{width:30px;height:30px;border-radius:2px;background:var(--border);display:flex;align-items:center;justify-content:center;font-size:.95rem;flex-shrink:0;overflow:hidden;}
+.qi-art img{width:100%;height:100%;object-fit:cover;}
+.qi-info{flex:1;min-width:0;}
+.qi-song{font-family:var(--display);font-weight:600;font-size:.92rem;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qi-artist{font-family:var(--body);font-size:.78rem;color:var(--muted);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.qi-bpm{font-family:var(--mono);font-size:.75rem;color:var(--muted);flex-shrink:0;}
+.qi-zone-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+
+/* Controls bar */
+.controls-bar{grid-column:1/-1;display:flex;align-items:center;gap:10px;padding:9px 20px;background:var(--surface);border-top:1px solid var(--border);}
+.ctrl-btn{background:none;border:1px solid var(--border);border-radius:3px;color:var(--text);padding:8px 20px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.9rem;letter-spacing:.15em;text-transform:uppercase;transition:all .15s;}
+.ctrl-btn:hover{background:var(--border);}
+.ctrl-btn.primary{border-color:var(--z1);color:var(--z1);}
+.ctrl-btn.primary:hover{background:rgba(0,207,255,.1);}
+.ctrl-btn.danger{border-color:var(--z5);color:var(--z5);}
+.ctrl-btn.danger:hover{background:rgba(255,31,64,.1);}
+.ctrl-sep{flex:1;}
+.class-info{font-family:var(--mono);font-size:.82rem;color:var(--muted);text-align:center;}
+
+/* ══════════════════════════ EDITOR PAGE ══════════════════════════ */
+.editor-page{padding:20px;max-width:900px;margin:0 auto;}
+.editor-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+.editor-title{font-family:var(--display);font-weight:900;font-size:1.4rem;letter-spacing:.1em;text-transform:uppercase;}
+.editor-actions{display:flex;gap:8px;}
+.ed-btn{background:none;border:1px solid var(--border);border-radius:3px;color:var(--text);padding:7px 16px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;transition:all .15s;}
+.ed-btn:hover{background:var(--border);}
+.ed-btn.primary{border-color:var(--z1);color:var(--z1);}
+.ed-btn.primary:hover{background:rgba(0,207,255,.1);}
+.ed-btn.add{border-color:var(--z2);color:var(--z2);}
+.ed-btn.add:hover{background:rgba(57,231,95,.1);}
+.seg-table{width:100%;border-collapse:collapse;margin-bottom:16px;}
+.seg-table th{font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);text-align:left;padding:6px 10px;border-bottom:1px solid var(--border);}
+.seg-table td{padding:5px 6px;border-bottom:1px solid rgba(30,40,64,.5);vertical-align:middle;}
+.seg-row:hover td{background:rgba(255,255,255,.02);}
+.seg-input{background:var(--card);border:1px solid var(--border);border-radius:2px;color:var(--text);padding:5px 8px;font-family:var(--body);font-size:.8rem;width:100%;}
+.seg-input:focus{outline:none;border-color:var(--z1);}
+.seg-input.cue-input{font-style:italic;color:var(--muted);}
+.zone-select{background:var(--card);border:1px solid var(--border);border-radius:2px;color:var(--text);padding:5px 6px;font-family:var(--display);font-weight:700;font-size:.75rem;text-transform:uppercase;letter-spacing:.08em;cursor:pointer;width:100%;}
+.dur-input{background:var(--card);border:1px solid var(--border);border-radius:2px;color:var(--text);padding:5px 8px;font-family:var(--mono);font-size:.82rem;width:60px;text-align:center;}
+.del-btn{background:none;border:1px solid var(--border);border-radius:2px;color:var(--muted);padding:4px 8px;cursor:pointer;font-size:.75rem;transition:all .15s;}
+.del-btn:hover{border-color:var(--z5);color:var(--z5);}
+.move-btn{background:none;border:none;color:var(--muted);padding:2px 5px;cursor:pointer;font-size:.75rem;transition:color .15s;}
+.move-btn:hover{color:var(--text);}
+.class-summary{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 16px;display:flex;gap:20px;align-items:center;flex-wrap:wrap;}
+.cs-item{font-family:var(--mono);font-size:.7rem;color:var(--muted);}
+.cs-val{color:var(--text);font-weight:bold;}
+.zone-preview{display:flex;height:12px;border-radius:3px;overflow:hidden;gap:1px;flex:1;min-width:200px;}
+.zp-seg{border-radius:2px;}
+
+/* ══════════════════════════ SETUP PAGE ══════════════════════════ */
+.setup-page{padding:24px;max-width:600px;margin:0 auto;}
+.setup-section{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:20px;margin-bottom:16px;}
+.setup-section-title{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;color:var(--z1);}
+.setup-field{margin-bottom:12px;}
+.setup-label{font-family:var(--display);font-weight:600;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:5px;}
+.setup-input{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);padding:8px 12px;font-family:var(--mono);font-size:.82rem;}
+.setup-input:focus{outline:none;border-color:var(--z1);}
+.setup-hint{font-family:var(--body);font-size:.72rem;color:var(--muted);margin-top:4px;line-height:1.5;}
+.setup-hint a{color:var(--z1);text-decoration:none;}
+.setup-hint a:hover{text-decoration:underline;}
+.setup-save{background:var(--z1);border:none;border-radius:3px;color:#000;padding:9px 20px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;width:100%;transition:opacity .2s;margin-top:4px;}
+.setup-save:hover{opacity:.85;}
+.setup-status{font-family:var(--mono);font-size:.7rem;margin-top:8px;text-align:center;min-height:18px;}
+.setup-steps{counter-reset:step;}
+.setup-step{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-num{background:var(--z1);color:#000;font-family:var(--display);font-weight:900;font-size:.75rem;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.step-text{font-family:var(--body);font-size:.8rem;color:var(--muted);line-height:1.5;}
+.step-text strong{color:var(--text);}
+.step-text code{font-family:var(--mono);font-size:.75rem;background:var(--bg);padding:1px 5px;border-radius:2px;color:var(--z3);}
+
+/* scrollbar */
+::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
+
+/* zone flash */
+.zone-flash{position:fixed;inset:0;pointer-events:none;z-index:999;animation:flash-in .6s ease forwards;opacity:0;}
+@keyframes flash-in{0%{opacity:.16;}100%{opacity:0;}}
+
+/* toast */
+.toast{position:fixed;bottom:20px;left:50%;transform:translateX(-50%);background:var(--card);border:1px solid var(--z1);border-radius:4px;padding:8px 18px;font-family:var(--mono);font-size:.75rem;color:var(--z1);z-index:2000;animation:toast-in .3s ease,toast-out .3s ease 2s forwards;pointer-events:none;}
+@keyframes toast-in{from{opacity:0;transform:translateX(-50%) translateY(10px);}to{opacity:1;transform:translateX(-50%) translateY(0);}}
+@keyframes toast-out{from{opacity:1;}to{opacity:0;}}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header>
+  <div>
+    <div class="logo">SPIN <span>COMMAND</span></div>
+    <div class="bike-tag">KEISER M3i — INSTRUCTOR CONSOLE v2</div>
+  </div>
+  <div class="header-right">
+    <div class="wall-clock" id="wallclock">—</div>
+    <button class="sp-btn" id="spBtn" onclick="handleSpotifyConnect()">
+      <svg viewBox="0 0 24 24"><path d="M12 0C5.4 0 0 5.4 0 12s5.4 12 12 12 12-5.4 12-12S18.66 0 12 0zm5.521 17.34c-.24.359-.66.48-1.021.24-2.82-1.74-6.36-2.101-10.561-1.141-.418.122-.779-.179-.899-.539-.12-.421.18-.78.54-.9 4.56-1.021 8.52-.6 11.64 1.32.42.18.479.659.301 1.02zm1.44-3.3c-.301.42-.841.6-1.262.3-3.239-1.98-8.159-2.58-11.939-1.38-.479.12-1.02-.12-1.14-.6-.12-.48.12-1.021.6-1.141C9.6 9.9 15 10.561 18.72 12.84c.361.181.54.78.241 1.2zm.12-3.36C15.24 8.4 8.82 8.16 5.16 9.301c-.6.179-1.2-.181-1.38-.721-.18-.601.18-1.2.72-1.381 4.26-1.26 11.28-1.02 15.721 1.621.539.3.719 1.02.419 1.56-.299.421-1.02.599-1.559.3z"/></svg>
+      CONNECT SPOTIFY
+    </button>
+    <span class="sp-status" id="spStatus">● LIVE</span>
+  </div>
+</header>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="showPage('instructor')">▶ Instructor</button>
+  <button class="nav-tab" onclick="showPage('editor')">✎ Edit Workout</button>
+  <button class="nav-tab" onclick="showPage('setup')">⚙ Spotify Setup</button>
+</div>
+
+<!-- ══ PAGE: INSTRUCTOR ══ -->
+<div id="page-instructor" class="page active">
+<div class="app">
+
+  <!-- Zone strip -->
+  <div class="zone-strip">
+    <div class="zone-card z1" data-zone="1"><div class="zone-label">Zone 1</div><div class="zone-name">Recovery</div><div class="zone-meta"><span>50–60% FTP</span><span>60–70 RPM</span></div></div>
+    <div class="zone-card z2" data-zone="2"><div class="zone-label">Zone 2</div><div class="zone-name">Endurance</div><div class="zone-meta"><span>61–75% FTP</span><span>70–85 RPM</span></div></div>
+    <div class="zone-card z3" data-zone="3"><div class="zone-label">Zone 3</div><div class="zone-name">Tempo</div><div class="zone-meta"><span>76–90% FTP</span><span>85–95 RPM</span></div></div>
+    <div class="zone-card z4" data-zone="4"><div class="zone-label">Zone 4</div><div class="zone-name">Threshold</div><div class="zone-meta"><span>91–105% FTP</span><span>90–100 RPM</span></div></div>
+    <div class="zone-card z5" data-zone="5"><div class="zone-label">Zone 5</div><div class="zone-name">MAX</div><div class="zone-meta"><span>106%+ FTP</span><span>100–110 RPM</span></div></div>
+  </div>
+
+  <!-- Main display -->
+  <div class="main-display">
+
+    <div class="timer-row">
+      <div class="timer-block highlight">
+        <div class="tb-label">Total Remaining</div>
+        <div class="tb-value" id="totalTimer">—</div>
+        <div class="tb-sub">Class time left</div>
+      </div>
+      <div class="timer-block">
+        <div class="tb-label">Segment Elapsed</div>
+        <div class="tb-value" id="segTimer">—</div>
+        <div class="tb-sub">Current segment</div>
+      </div>
+      <div class="timer-block">
+        <div class="tb-label">To Next Segment</div>
+        <div class="tb-value" id="segEndTimer">—</div>
+        <div class="tb-sub">Time remaining</div>
+      </div>
+    </div>
+
+    <div>
+      <div class="prog-header">
+        <div class="prog-title">Class Progress</div>
+        <div class="prog-pct" id="progPct">0%</div>
+      </div>
+      <div class="prog-track"><div class="prog-fill" id="progFill" style="width:0%"></div></div>
+    </div>
+
+    <div>
+      <div class="tl-header">
+        <div class="section-title">Workout Map</div>
+        <div class="section-title" id="tlSegCount" style="color:var(--text)"></div>
+      </div>
+      <div class="tl-track" id="tlTrack"></div>
+    </div>
+
+    <div class="segment-detail" id="segDetail">
+      <div class="zone-glow" id="segGlow"></div>
+      <div style="position:relative">
+        <div class="sd-top">
+          <div>
+            <div class="sd-zone-badge" id="sdZoneBadge">—</div>
+            <div class="sd-seg-name" id="sdSegName">Ready</div>
+          </div>
+          <div>
+            <div class="sd-next-label">NEXT UP</div>
+            <div class="sd-next-name" id="sdNextName">—</div>
+          </div>
+        </div>
+        <div class="sd-stats">
+          <div class="sd-stat">
+            <div class="sd-stat-label">Target RPM</div>
+            <div class="sd-stat-val" id="sdRPM" style="color:var(--z3)">—</div>
+            <div class="sd-stat-unit">rev / min</div>
+          </div>
+          <div class="sd-stat">
+            <div class="sd-stat-label">M3i Gear</div>
+            <div class="sd-stat-val" id="sdGear" style="color:var(--z4)">—</div>
+            <div class="sd-stat-unit">gear (1–24)</div>
+          </div>
+          <div class="sd-stat">
+            <div class="sd-stat-label">Resistance %</div>
+            <div class="sd-stat-val" id="sdResPct" style="color:var(--z4)">—</div>
+            <div class="sd-stat-unit">% of max</div>
+          </div>
+          <div class="sd-stat">
+            <div class="sd-stat-label">Duration</div>
+            <div class="sd-stat-val" id="sdDur" style="color:var(--z1)">—</div>
+            <div class="sd-stat-unit">segment</div>
+          </div>
+        </div>
+        <div class="sd-cue" id="sdCue">Press START to begin</div>
+      </div>
+    </div>
+
+    <div class="rpm-gauge">
+      <div>
+        <div class="rpm-big" id="rpmDisplay">—</div>
+        <div class="rpm-unit-row">RPM Target</div>
+      </div>
+      <div class="rpm-bar-col">
+        <div class="rpm-range-label">
+          <span>MIN <span id="rpmMin">—</span></span>
+          <span>MAX <span id="rpmMax">—</span></span>
+        </div>
+        <div class="rpm-track"><div class="rpm-fill" id="rpmFill"></div></div>
+        <div class="rpm-markers"><span>60</span><span>70</span><span>80</span><span>90</span><span>100</span><span>110</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Music Panel -->
+  <div class="music-panel">
+    <div class="music-header">
+      <div class="music-header-title">Music</div>
+      <div class="sp-link-label" id="spLinkLabel">Not connected</div>
+    </div>
+
+    <!-- Spotify connect prompt (shown when not connected) -->
+    <div id="spConnectBanner" class="sp-connect-banner">
+      <p>Connect Spotify to remotely control music on your iPhone, speaker, or any Spotify device. Zone changes auto-queue matched playlists.</p>
+      <button class="sp-connect-btn" onclick="showPage('setup')">⚙ Set Up Spotify →</button>
+    </div>
+
+    <!-- Now playing (always visible) -->
+    <div class="now-playing">
+      <div class="np-label">Now Playing</div>
+      <div class="np-track-art">
+        <div class="np-art" id="npArt">🎵</div>
+        <div class="np-info">
+          <div class="np-song" id="npSong">Not connected</div>
+          <div class="np-artist" id="npArtist">Connect Spotify above</div>
+          <div class="np-bpm-tag" id="npBpm">— BPM</div>
+        </div>
+      </div>
+      <div class="np-progress"><div class="np-prog-fill" id="npProgFill" style="width:0%"></div></div>
+      <div class="np-controls">
+        <button class="np-btn" onclick="spotifyPrev()">◀◀</button>
+        <button class="np-btn play-btn" id="musicPlayBtn" onclick="spotifyToggle()">▶ PLAY</button>
+        <button class="np-btn" onclick="spotifyNext()">▶▶</button>
+      </div>
+      <div class="np-vol" id="volRow" style="display:none">
+        <span class="np-vol-label">Vol</span>
+        <input type="range" min="0" max="100" value="80" oninput="spotifyVolume(this.value)">
+      </div>
+    </div>
+
+    <!-- Playlist selector (shown when connected) -->
+    <div class="playlist-section" id="plSection" style="display:none">
+      <div class="section-title" style="padding-top:8px">Zone Playlists</div>
+      <select class="pl-select" id="plZ1" onchange="setZonePlaylist(1,this.value)"><option value="">Z1 Recovery — select playlist</option></select>
+      <select class="pl-select" id="plZ2" onchange="setZonePlaylist(2,this.value)"><option value="">Z2 Endurance — select playlist</option></select>
+      <select class="pl-select" id="plZ3" onchange="setZonePlaylist(3,this.value)"><option value="">Z3 Tempo — select playlist</option></select>
+      <select class="pl-select" id="plZ4" onchange="setZonePlaylist(4,this.value)"><option value="">Z4 Threshold — select playlist</option></select>
+      <select class="pl-select" id="plZ5" onchange="setZonePlaylist(5,this.value)"><option value="">Z5 MAX — select playlist</option></select>
+    </div>
+
+    <!-- Fallback demo queue -->
+    <div class="queue-section" id="demoQueue"></div>
+  </div>
+
+  <!-- Controls bar -->
+  <div class="controls-bar">
+    <button class="ctrl-btn primary" id="startBtn" onclick="toggleClass()">▶ START</button>
+    <button class="ctrl-btn" onclick="prevSegment()">◀ PREV</button>
+    <button class="ctrl-btn" onclick="nextSegment()">NEXT ▶</button>
+    <div class="ctrl-sep"></div>
+    <div class="class-info" id="classInfoLabel">—</div>
+    <div class="ctrl-sep"></div>
+    <button class="ctrl-btn danger" onclick="resetClass()">↺ RESET</button>
+  </div>
+
+</div><!-- /app -->
+</div><!-- /page-instructor -->
+
+<!-- ══ PAGE: EDITOR ══ -->
+<div id="page-editor" class="page">
+<div class="editor-page">
+  <div class="editor-header">
+    <div class="editor-title">✎ Workout Editor</div>
+    <div class="editor-actions">
+      <button class="ed-btn add" onclick="addSegment()">+ Add Segment</button>
+      <button class="ed-btn primary" onclick="saveSegments()">✓ Save & Apply</button>
+    </div>
+  </div>
+
+  <div class="class-summary" id="classSummary"></div>
+
+  <table class="seg-table" id="segTable">
+    <thead>
+      <tr>
+        <th style="width:30px"></th>
+        <th style="width:160px">Segment Name</th>
+        <th style="width:100px">Zone</th>
+        <th style="width:55px">Min</th>
+        <th>Coaching Cue</th>
+        <th style="width:40px"></th>
+      </tr>
+    </thead>
+    <tbody id="segTbody"></tbody>
+  </table>
+
+  <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:8px;">
+    ↑↓ drag to reorder · Zone colours auto-update · Changes apply to instructor view on Save
+  </div>
+</div>
+</div>
+
+<!-- ══ PAGE: SETUP ══ -->
+<div id="page-setup" class="page">
+<div class="setup-page">
+  <div class="setup-section">
+    <div class="setup-section-title">🎵 Spotify Connection <span style="font-size:.65rem;color:var(--z2);letter-spacing:.05em">— Client ID pre-configured ✓</span></div>
+
+    <!-- IPAD / GITHUB PAGES SETUP -->
+    <!-- WHY file:// FAILS -->
+    <div style="background:rgba(255,31,64,.07);border:1px solid rgba(255,31,64,.3);border-radius:4px;padding:14px 16px;margin-bottom:18px;">
+      <div style="font-family:var(--display);font-weight:700;font-size:.85rem;letter-spacing:.15em;text-transform:uppercase;color:var(--z5);margin-bottom:6px;">⚠ Why Spotify rejects the connection</div>
+      <div style="font-family:var(--body);font-size:.9rem;color:var(--muted);line-height:1.7;">
+        Spotify only allows <code style="font-family:var(--mono);color:var(--z2);font-size:.82rem;">https://</code> redirect URIs — opening a local file won't work on iPad. The fix is to host this file online for free using <strong style="color:var(--text)">GitHub Pages</strong>. It takes about 5 minutes and is free forever.
+      </div>
+    </div>
+
+    <div class="setup-steps">
+
+      <div class="setup-step">
+        <div class="step-num">1</div>
+        <div class="step-text">
+          <strong>Create a free GitHub account</strong> at <a href="https://github.com" target="_blank" style="color:var(--z1);">github.com</a> — or sign in if you already have one.
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">2</div>
+        <div class="step-text">
+          Tap the <strong>+</strong> icon (top right) → <strong>New repository</strong>.<br>
+          Name it <code style="font-family:var(--mono);color:var(--z3);font-size:.8rem;">spin-command</code> · set to <strong>Public</strong> · tick <strong>"Add a README file"</strong> · tap <strong>Create repository</strong>.
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">3</div>
+        <div class="step-text">
+          Inside your new repository, tap <strong>Add file → Upload files</strong>.<br>
+          Upload <code style="font-family:var(--mono);color:var(--z3);font-size:.8rem;">spincommand.html</code> from your Files app, then tap <strong>Commit changes</strong>.
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">4</div>
+        <div class="step-text">
+          Tap <strong>Settings</strong> (in your repo) → scroll to <strong>Pages</strong> in the left menu.<br>
+          Under <em>Source</em>, choose <strong>Deploy from a branch</strong> · branch: <strong>main</strong> · folder: <strong>/ (root)</strong> · tap <strong>Save</strong>.<br>
+          <span style="color:var(--muted);font-size:.8rem;">Wait about 60 seconds. Refresh the page and your live URL will appear — it looks like:</span><br>
+          <code style="font-family:var(--mono);color:var(--z1);font-size:.78rem;">https://yourusername.github.io/spin-command/spincommand.html</code>
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">5</div>
+        <div class="step-text">
+          Go to <a href="https://developer.spotify.com/dashboard" target="_blank" style="color:var(--z1);">developer.spotify.com/dashboard</a> → your app → <strong>Settings → Redirect URIs</strong>.<br>
+          Add your full GitHub Pages URL exactly (copy it from Step 4), tap <strong>Add</strong> then <strong>Save</strong>.
+        </div>
+      </div>
+
+      <div class="setup-step">
+        <div class="step-num">6</div>
+        <div class="step-text">
+          Open your GitHub Pages URL in Safari or Chrome on your iPad.<br>
+          Tap <strong>CONNECT SPOTIFY</strong> — it will work. ✓<br>
+          <span style="font-size:.8rem;color:var(--muted);">Bookmark that URL so you can open it quickly before each class. You need <strong style="color:var(--text)">Spotify Premium</strong> for playback control.</span>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Your GitHub Pages URL input -->
+    <div class="setup-field" style="margin-top:20px;">
+      <label class="setup-label">Your GitHub Pages URL <span style="color:var(--muted);font-weight:400;text-transform:none;letter-spacing:0;">(paste once live, used as redirect URI)</span></label>
+      <input class="setup-input" id="redirectInput" type="text" placeholder="https://yourusername.github.io/spin-command/spincommand.html">
+      <div class="setup-hint">This must match <em>exactly</em> what you add in your Spotify app's Redirect URIs. Paste it here so the app uses it when authorising.</div>
+    </div>
+
+    <div class="setup-field">
+      <label class="setup-label">Spotify Client ID <span style="color:var(--z2);">— pre-configured ✓</span></label>
+      <input class="setup-input" id="clientIdInput" type="text" placeholder="Paste your Client ID here…" value="">
+      <div class="setup-hint">Your Client ID is already embedded. Only change this if you create a new Spotify app.</div>
+    </div>
+
+    <button class="setup-save" onclick="saveSpotifyConfig()">Save & Authorise with Spotify →</button>
+    <div class="setup-status" id="setupStatus"></div>
+  </div>
+
+  <div class="setup-section">
+    <div class="setup-section-title">ℹ How It Works</div>
+    <div style="font-family:var(--body);font-size:.8rem;color:var(--muted);line-height:1.7;">
+      Once connected, Spin Command can:<br>
+      • <strong style="color:var(--text)">Play / pause / skip</strong> tracks directly from the console<br>
+      • <strong style="color:var(--text)">Auto-switch playlists</strong> when the zone changes during class<br>
+      • <strong style="color:var(--text)">Show album art, track name, artist</strong> and BPM in real time<br>
+      • <strong style="color:var(--text)">Control volume</strong> from the music panel<br><br>
+      Playback happens through <strong style="color:var(--text)">your existing Spotify session</strong> — phone, speaker, or this browser tab. Requires Spotify Premium.
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+// ─── ZONE CONFIG ───
+const ZONES = {
+  1:{color:'var(--z1)',hex:'#00cfff',name:'Recovery', rpmMin:60,rpmMax:70, rpmTarget:65, gearMin:1, gearMax:5,  resPctMin:8,  resPctMax:21},
+  2:{color:'var(--z2)',hex:'#39e75f',name:'Endurance',rpmMin:70,rpmMax:85, rpmTarget:78, gearMin:5, gearMax:9,  resPctMin:21, resPctMax:38},
+  3:{color:'var(--z3)',hex:'#ffd600',name:'Tempo',    rpmMin:85,rpmMax:95, rpmTarget:90, gearMin:9, gearMax:13, resPctMin:38, resPctMax:54},
+  4:{color:'var(--z4)',hex:'#ff7a00',name:'Threshold',rpmMin:90,rpmMax:100,rpmTarget:95, gearMin:13,gearMax:18, resPctMin:54, resPctMax:75},
+  5:{color:'var(--z5)',hex:'#ff1f40',name:'MAX',      rpmMin:100,rpmMax:110,rpmTarget:105,gearMin:18,gearMax:24, resPctMin:75, resPctMax:100},
+};
+
+// ─── DEFAULT SEGMENTS (editable) ───
+let SEGMENTS = [
+  {name:'Warm-Up',       zone:1, durationMin:5,  cue:'Easy spin — settle in, deep breaths, loosen up the legs'},
+  {name:'Base Build',    zone:2, durationMin:5,  cue:'Steady climb — find a comfortable rhythm, keep hips still'},
+  {name:'Tempo Push',    zone:3, durationMin:5,  cue:'Lift the cadence — breathing hard but still speaking'},
+  {name:'Attack!',       zone:4, durationMin:3,  cue:'Drive through the stroke — power from glutes and quads'},
+  {name:'Recovery',      zone:1, durationMin:2,  cue:'Active recovery — keep pedalling, flush the legs'},
+  {name:'Climb Series',  zone:4, durationMin:6,  cue:'Add resistance — seat weight back, long powerful strokes'},
+  {name:'Sprint Surge',  zone:5, durationMin:2,  cue:'🔥 ALL OUT — max effort, do not hold back!'},
+  {name:'Active Rest',   zone:2, durationMin:3,  cue:'Come down — control breath, open the chest'},
+  {name:'Peak Interval', zone:5, durationMin:4,  cue:'🔥 GO GO GO — push past the burn, 30s at a time'},
+  {name:'Cool Down',     zone:1, durationMin:10, cue:'Dial right back — legs still spinning, HR comes down'},
+];
+
+// ─── DEMO TRACKS ───
+const DEMO_TRACKS = [
+  {zone:1,emoji:'🌊',song:'Waterfall',artist:'The Chemical Brothers',bpm:124},
+  {zone:1,emoji:'🎵',song:'High Hopes',artist:'Placebo',bpm:118},
+  {zone:2,emoji:'🎶',song:'Stronger',artist:'Kanye West',bpm:104},
+  {zone:2,emoji:'🔊',song:"Mr. Brightside",artist:'The Killers',bpm:148},
+  {zone:3,emoji:'🥁',song:'Levels',artist:'Avicii',bpm:126},
+  {zone:3,emoji:'🎹',song:"Don't Stop Me Now",artist:'Queen',bpm:156},
+  {zone:4,emoji:'⚡',song:'Thunderstruck',artist:'AC/DC',bpm:133},
+  {zone:4,emoji:'💪',song:'Lose Yourself',artist:'Eminem',bpm:171},
+  {zone:5,emoji:'💥',song:'Kernkraft 400',artist:'Zombie Nation',bpm:140},
+  {zone:5,emoji:'🚀',song:'Seven Nation Army',artist:'The White Stripes (remix)',bpm:124},
+];
+
+// ─── STATE ───
+let elapsed=0, segIdx=0, segElapsed=0, running=false, timer=null;
+let spotifyConnected=false, spotifyToken=null, spotifyPlayer=null;
+let spotifyPlaying=false, trackProgress=0, trackDuration=0;
+let spotifyPollTimer=null;
+let zonePlaylistMap={1:null,2:null,3:null,4:null,5:null};
+let clientId='', redirectUri='http://localhost';
+let demoTrackIdx=0, demoElapsed=0, demoTotal=200, demoTimer=null, demoPlaying=false;
+
+function totalSeconds(){ return SEGMENTS.reduce((a,s)=>a+s.durationMin*60,0); }
+function fmt(s){const m=Math.floor(s/60),ss=s%60;return`${String(m).padStart(2,'0')}:${String(ss).padStart(2,'0')}`;}
+function segStart(i){let t=0;for(let j=0;j<i;j++)t+=SEGMENTS[j].durationMin*60;return t;}
+
+// ─── PAGE SWITCHING ───
+function showPage(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  event.target.classList.add('active');
+  if(id==='editor') renderEditor();
+}
+
+// ─── WALL CLOCK ───
+setInterval(()=>{document.getElementById('wallclock').textContent=new Date().toLocaleTimeString('en-GB');},1000);
+
+// ─── RENDER INSTRUCTOR ───
+function renderAll(){
+  const seg=SEGMENTS[segIdx], z=ZONES[seg.zone];
+  const segDur=seg.durationMin*60, total=totalSeconds();
+  const segRem=segDur-segElapsed, totalRem=total-elapsed;
+  const pct=Math.min(100,(elapsed/total)*100);
+
+  document.getElementById('totalTimer').textContent=fmt(Math.max(0,totalRem));
+  document.getElementById('segTimer').textContent=fmt(segElapsed);
+  document.getElementById('segEndTimer').textContent=fmt(Math.max(0,segRem));
+  document.getElementById('progFill').style.width=pct+'%';
+  document.getElementById('progFill').style.background=z.color;
+  document.getElementById('progPct').textContent=Math.round(pct)+'%';
+
+  // zone strip
+  document.querySelectorAll('.zone-card').forEach(c=>{
+    c.classList.toggle('active',parseInt(c.dataset.zone)===seg.zone);
+  });
+
+  // segment detail
+  document.getElementById('sdZoneBadge').textContent=`Z${seg.zone} · ${z.name}`;
+  document.getElementById('sdZoneBadge').style.background=z.hex+'22';
+  document.getElementById('sdZoneBadge').style.color=z.hex;
+  document.getElementById('sdSegName').textContent=seg.name;
+  document.getElementById('sdRPM').textContent=z.rpmTarget;
+
+  // Dual resistance
+  const gearMid=Math.round((z.gearMin+z.gearMax)/2);
+  const resPctMid=Math.round((z.resPctMin+z.resPctMax)/2);
+  document.getElementById('sdGear').textContent=`${z.gearMin}–${z.gearMax}`;
+  document.getElementById('sdResPct').textContent=`${z.resPctMin}–${z.resPctMax}%`;
+
+  document.getElementById('sdDur').textContent=seg.durationMin+'m';
+  document.getElementById('sdCue').textContent=seg.cue;
+  document.getElementById('segGlow').style.background=z.hex;
+
+  const next=SEGMENTS[segIdx+1];
+  document.getElementById('sdNextName').textContent=next?next.name:'— FINISH —';
+
+  // RPM
+  const rpmPct=((z.rpmTarget-60)/(110-60))*100;
+  document.getElementById('rpmDisplay').textContent=z.rpmTarget;
+  document.getElementById('rpmDisplay').style.color=z.color;
+  document.getElementById('rpmFill').style.width=rpmPct+'%';
+  document.getElementById('rpmFill').style.background=z.color;
+  document.getElementById('rpmMin').textContent=z.rpmMin;
+  document.getElementById('rpmMax').textContent=z.rpmMax;
+
+  // Timeline
+  const tl=document.getElementById('tlTrack');
+  tl.innerHTML='';
+  SEGMENTS.forEach((s,i)=>{
+    const d=document.createElement('div');
+    d.className='tl-seg '+(i<segIdx?'done':i===segIdx?'current':'upcoming');
+    d.style.background=ZONES[s.zone].hex;
+    d.style.flex=s.durationMin;
+    d.title=`${s.name} · ${s.durationMin}m · Z${s.zone}`;
+    d.innerHTML=`<span class="tl-seg-label">Z${s.zone}</span>`;
+    d.onclick=()=>jumpToSegment(i);
+    tl.appendChild(d);
+  });
+  document.getElementById('tlSegCount').textContent=`Seg ${segIdx+1}/${SEGMENTS.length}`;
+  document.getElementById('classInfoLabel').textContent=`${Math.round(totalSeconds()/60)}min · ${SEGMENTS.length} segments · Seg ${segIdx+1}`;
+}
+
+// ─── CLASS CONTROLS ───
+function toggleClass(){
+  running=!running;
+  const btn=document.getElementById('startBtn');
+  btn.textContent=running?'⏸ PAUSE':'▶ RESUME';
+  btn.className=running?'ctrl-btn danger':'ctrl-btn primary';
+  if(running){
+    timer=setInterval(tick,1000);
+    if(spotifyConnected) spotifyPlay();
+    else startDemoMusic();
+  } else {
+    clearInterval(timer);
+    if(spotifyConnected) spotifyPauseCmd();
+    else pauseDemoMusic();
+  }
+}
+
+function tick(){
+  elapsed++;segElapsed++;
+  const segDur=SEGMENTS[segIdx].durationMin*60;
+  if(segElapsed>=segDur){
+    if(segIdx<SEGMENTS.length-1){
+      const prevZone=SEGMENTS[segIdx].zone;
+      segIdx++;segElapsed=0;
+      if(SEGMENTS[segIdx].zone!==prevZone){
+        flashZone(SEGMENTS[segIdx].zone);
+        if(spotifyConnected) autoQueueZonePlaylist(SEGMENTS[segIdx].zone);
+      }
+    } else {
+      clearInterval(timer);running=false;
+      document.getElementById('startBtn').textContent='✓ DONE';
+      document.getElementById('startBtn').className='ctrl-btn';
+    }
+  }
+  if(elapsed>=totalSeconds()) elapsed=totalSeconds();
+  renderAll();
+}
+
+function nextSegment(){
+  if(segIdx<SEGMENTS.length-1){segIdx++;elapsed=segStart(segIdx);segElapsed=0;renderAll();}
+}
+function prevSegment(){
+  if(segIdx>0){segIdx--;elapsed=segStart(segIdx);segElapsed=0;renderAll();}
+}
+function jumpToSegment(i){segIdx=i;elapsed=segStart(i);segElapsed=0;renderAll();}
+
+function resetClass(){
+  clearInterval(timer);clearInterval(demoTimer);
+  running=false;demoPlaying=false;elapsed=0;segIdx=0;segElapsed=0;demoTrackIdx=0;demoElapsed=0;
+  document.getElementById('startBtn').textContent='▶ START';
+  document.getElementById('startBtn').className='ctrl-btn primary';
+  document.getElementById('musicPlayBtn').textContent='▶ PLAY';
+  renderAll();
+  if(!spotifyConnected) renderDemoTrack();
+}
+
+function flashZone(z){
+  const fl=document.createElement('div');
+  fl.className='zone-flash';fl.style.background=ZONES[z].hex;
+  document.body.appendChild(fl);setTimeout(()=>fl.remove(),700);
+}
+
+// ─── DEMO MUSIC ───
+function buildDemoQueue(){
+  const q=document.getElementById('demoQueue');q.innerHTML='';
+  const zColors=['','var(--z1)','var(--z2)','var(--z3)','var(--z4)','var(--z5)'];
+  for(let z=1;z<=5;z++){
+    const tracks=DEMO_TRACKS.filter(t=>t.zone===z);
+    const grp=document.createElement('div');
+    const h=document.createElement('div');h.className='qzg-header';
+    h.style.borderLeft=`3px solid ${zColors[z]}`;h.style.paddingLeft='11px';
+    h.style.color=zColors[z];h.textContent=`Zone ${z} — ${ZONES[z].name} (demo)`;
+    grp.appendChild(h);
+    tracks.forEach((t,i)=>{
+      const row=document.createElement('div');row.className='queue-item';
+      row.id=`dq-${z}-${i}`;
+      row.onclick=()=>playDemoTrack(DEMO_TRACKS.indexOf(t));
+      row.innerHTML=`<div class="qi-num">${i+1}</div><div class="qi-art">${t.emoji}</div>
+        <div class="qi-info"><div class="qi-song">${t.song}</div><div class="qi-artist">${t.artist}</div></div>
+        <div class="qi-bpm">${t.bpm} BPM</div>
+        <div class="qi-zone-dot" style="background:${zColors[t.zone]}"></div>`;
+      grp.appendChild(row);
+    });
+    q.appendChild(grp);
+  }
+}
+
+function renderDemoTrack(){
+  const t=DEMO_TRACKS[demoTrackIdx%DEMO_TRACKS.length];
+  document.getElementById('npArt').textContent=t.emoji;
+  document.getElementById('npSong').textContent=t.song;
+  document.getElementById('npArtist').textContent=t.artist;
+  document.getElementById('npBpm').textContent=t.bpm+' BPM';
+  const pct=demoTotal>0?Math.min(100,(demoElapsed/demoTotal)*100):0;
+  document.getElementById('npProgFill').style.width=pct+'%';
+}
+
+function playDemoTrack(i){
+  demoTrackIdx=i;demoElapsed=0;demoTotal=180+Math.floor(Math.random()*120);
+  renderDemoTrack();
+}
+
+function startDemoMusic(){
+  if(demoPlaying) return;
+  demoPlaying=true;
+  document.getElementById('musicPlayBtn').textContent='⏸ PAUSE';
+  demoTimer=setInterval(()=>{
+    demoElapsed++;
+    if(demoElapsed>=demoTotal){demoTrackIdx=(demoTrackIdx+1)%DEMO_TRACKS.length;demoElapsed=0;demoTotal=180+Math.floor(Math.random()*120);}
+    renderDemoTrack();
+  },1000);
+}
+
+function pauseDemoMusic(){
+  demoPlaying=false;clearInterval(demoTimer);
+  document.getElementById('musicPlayBtn').textContent='▶ PLAY';
+}
+
+function spotifyToggle(){if(!spotifyConnected){startDemoMusic();}else{if(spotifyPlaying)spotifyPauseCmd();else spotifyPlay();}}
+function spotifyNext(){if(!spotifyConnected){demoTrackIdx=(demoTrackIdx+1)%DEMO_TRACKS.length;demoElapsed=0;renderDemoTrack();}else{spotifySkip('next');}}
+function spotifyPrev(){if(!spotifyConnected){demoTrackIdx=Math.max(0,demoTrackIdx-1);demoElapsed=0;renderDemoTrack();}else{spotifySkip('prev');}}
+
+// ─── SPOTIFY OAUTH ───
+function handleSpotifyConnect(){
+  if(spotifyConnected){ toast('Already connected to Spotify ✓'); return; }
+  authoriseSpotify(clientId || EMBEDDED_CLIENT_ID);
+}
+
+function saveSpotifyConfig(){
+  const id=(document.getElementById('clientIdInput').value.trim())||EMBEDDED_CLIENT_ID;
+  const redir=document.getElementById('redirectInput').value.trim();
+  if(!redir||redir.includes('yourusername')){
+    document.getElementById('setupStatus').style.color='var(--z5)';
+    document.getElementById('setupStatus').textContent='Please paste your GitHub Pages URL first.';
+    return;
+  }
+  if(!redir.startsWith('https://')){
+    document.getElementById('setupStatus').style.color='var(--z5)';
+    document.getElementById('setupStatus').textContent='URL must start with https:// — use your GitHub Pages URL.';
+    return;
+  }
+  localStorage.setItem('sp_client_id',id);
+  localStorage.setItem('sp_redirect',redir);
+  clientId=id;redirectUri=redir;
+  document.getElementById('setupStatus').style.color='var(--z2)';
+  document.getElementById('setupStatus').textContent='Saved! Opening Spotify authorisation…';
+  setTimeout(()=>authoriseSpotify(id),800);
+}
+
+async function authoriseSpotify(id){
+  const scopes='user-read-playback-state user-modify-playback-state user-read-currently-playing streaming playlist-read-private';
+  // Use current page URL — must be http:// not file://
+  const redir=window.location.href.split('#')[0].split('?')[0];
+  if(redir.startsWith('file://')){
+    alert('⚠ Spotify requires an https:// URL. On iPad, please host this file on GitHub Pages first — see the ⚙ Spotify Setup tab for step-by-step instructions.');
+    return;
+  }
+  localStorage.setItem('sp_redirect', redir);
+
+  // PKCE: generate code verifier + challenge
+  const verifier=generateCodeVerifier();
+  const challenge=await generateCodeChallenge(verifier);
+  localStorage.setItem('sp_code_verifier', verifier);
+
+  const url=`https://accounts.spotify.com/authorize?client_id=${encodeURIComponent(id)}&response_type=code&redirect_uri=${encodeURIComponent(redir)}&scope=${encodeURIComponent(scopes)}&code_challenge_method=S256&code_challenge=${encodeURIComponent(challenge)}`;
+  showTokenModal(url);
+}
+
+// ─── PKCE HELPERS ───
+function generateCodeVerifier(){
+  const arr=new Uint8Array(64);
+  crypto.getRandomValues(arr);
+  return btoa(String.fromCharCode(...arr)).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+async function generateCodeChallenge(verifier){
+  const data=new TextEncoder().encode(verifier);
+  const digest=await crypto.subtle.digest('SHA-256',data);
+  return btoa(String.fromCharCode(...new Uint8Array(digest))).replace(/\+/g,'-').replace(/\//g,'_').replace(/=/g,'');
+}
+
+function showTokenModal(authUrl){
+  const existing=document.getElementById('tokenModal');
+  if(existing) existing.remove();
+
+  // Compute the exact redirect URI being used so user can copy it
+  const exactRedirect=window.location.href.split('#')[0].split('?')[0];
+
+  const modal=document.createElement('div');
+  modal.id='tokenModal';
+  modal.style.cssText='position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML=`
+    <div style="background:var(--card);border:1px solid var(--z1);border-radius:6px;padding:24px;max-width:520px;width:100%;font-family:var(--body);">
+      <div style="font-family:var(--display);font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-transform:uppercase;color:var(--z1);margin-bottom:16px;">Connect to Spotify</div>
+
+      <!-- Step 0: Add redirect URI -->
+      <div style="background:rgba(255,214,0,.07);border:1px solid rgba(255,214,0,.3);border-radius:4px;padding:12px 14px;margin-bottom:14px;">
+        <div style="font-family:var(--display);font-weight:700;font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--z3);margin-bottom:6px;">⚠ First: Add this URI to your Spotify App</div>
+        <div style="font-size:.75rem;color:var(--muted);margin-bottom:8px;line-height:1.5;">
+          Go to <strong style="color:var(--text)">developer.spotify.com/dashboard</strong> → your app → <strong style="color:var(--text)">Settings → Redirect URIs</strong> and add this <em>exactly</em>:
+        </div>
+        <div style="display:flex;align-items:center;gap:8px;">
+          <div id="uriDisplay" style="flex:1;background:var(--bg);border:1px solid var(--border);border-radius:3px;padding:7px 10px;font-family:var(--mono);font-size:.72rem;color:var(--z3);word-break:break-all;">${exactRedirect}</div>
+          <button onclick="navigator.clipboard.writeText('${exactRedirect}').then(()=>{this.textContent='✓ Copied';setTimeout(()=>this.textContent='Copy',1500)})" style="background:var(--z3);border:none;border-radius:3px;color:#000;padding:7px 12px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;flex-shrink:0;">Copy</button>
+        </div>
+        <div style="font-size:.7rem;color:var(--muted);margin-top:6px;">After adding it in Spotify, click Save — then come back and continue below.</div>
+      </div>
+
+      <!-- Steps 1-3 -->
+      <div style="font-size:.78rem;color:var(--muted);line-height:1.8;margin-bottom:12px;">
+        <strong style="color:var(--text)">1.</strong> Click the button below to open Spotify login.<br>
+        <strong style="color:var(--text)">2.</strong> Log in — you'll land on a blank or broken page. That's expected.<br>
+        <strong style="color:var(--text)">3.</strong> Copy the <em>full URL</em> from your browser address bar and paste it below.
+      </div>
+
+      <button onclick="window.open('${authUrl}','_blank','width=520,height=720')" style="width:100%;background:#1DB954;border:none;border-radius:3px;color:#000;padding:9px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.12em;text-transform:uppercase;margin-bottom:12px;">
+        Open Spotify Login ↗
+      </button>
+
+      <div style="font-family:var(--display);font-size:.58rem;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:5px;">Paste the redirect URL here:</div>
+      <textarea id="tokenPasteInput" placeholder="e.g. file:///Users/you/spin-command.html?code=AQD..." style="width:100%;height:65px;background:var(--bg);border:1px solid var(--border);border-radius:3px;color:var(--text);padding:8px;font-family:var(--mono);font-size:.7rem;resize:none;margin-bottom:10px;"></textarea>
+      <div style="display:flex;gap:8px;">
+        <button onclick="extractAndConnect()" style="flex:1;background:var(--z1);border:none;border-radius:3px;color:#000;padding:8px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;">Connect</button>
+        <button onclick="document.getElementById('tokenModal').remove()" style="background:none;border:1px solid var(--border);border-radius:3px;color:var(--muted);padding:8px 14px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;">Cancel</button>
+      </div>
+      <div id="tokenModalStatus" style="font-family:var(--mono);font-size:.65rem;margin-top:8px;min-height:16px;text-align:center;"></div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+async function extractAndConnect(){
+  const raw=document.getElementById('tokenPasteInput').value.trim();
+  const statusEl=document.getElementById('tokenModalStatus');
+  let code=null;
+  try{
+    const urlObj=new URL(raw);
+    code=urlObj.searchParams.get('code');
+  }catch(e){}
+  if(!code){
+    statusEl.style.color='var(--z5)';
+    statusEl.textContent='No code found — paste the full redirect URL from your browser.';
+    return;
+  }
+  statusEl.style.color='var(--z3)';
+  statusEl.textContent='Exchanging code for token…';
+  const verifier=localStorage.getItem('sp_code_verifier');
+  const redir=localStorage.getItem('sp_redirect')||window.location.href.split('#')[0].split('?')[0];
+  const cid=clientId||EMBEDDED_CLIENT_ID;
+  try{
+    const resp=await fetch('https://accounts.spotify.com/api/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({
+        grant_type:'authorization_code',
+        code,
+        redirect_uri:redir,
+        client_id:cid,
+        code_verifier:verifier
+      })
+    });
+    const data=await resp.json();
+    if(data.access_token){
+      localStorage.setItem('sp_access_token', data.access_token);
+      if(data.refresh_token) localStorage.setItem('sp_refresh_token', data.refresh_token);
+      // Schedule refresh before expiry
+      if(data.expires_in) setTimeout(refreshSpotifyToken, (data.expires_in-60)*1000);
+      document.getElementById('tokenModal').remove();
+      onSpotifyToken(data.access_token);
+    } else {
+      statusEl.style.color='var(--z5)';
+      statusEl.textContent='Token exchange failed: '+(data.error_description||data.error||'unknown error');
+    }
+  }catch(e){
+    statusEl.style.color='var(--z5)';
+    statusEl.textContent='Network error: '+e.message;
+  }
+}
+
+async function refreshSpotifyToken(){
+  const refreshToken=localStorage.getItem('sp_refresh_token');
+  const cid=clientId||EMBEDDED_CLIENT_ID;
+  if(!refreshToken||!cid) return;
+  try{
+    const resp=await fetch('https://accounts.spotify.com/api/token',{
+      method:'POST',
+      headers:{'Content-Type':'application/x-www-form-urlencoded'},
+      body:new URLSearchParams({grant_type:'refresh_token',refresh_token:refreshToken,client_id:cid})
+    });
+    const data=await resp.json();
+    if(data.access_token){
+      spotifyToken=data.access_token;
+      localStorage.setItem('sp_access_token',data.access_token);
+      if(data.refresh_token) localStorage.setItem('sp_refresh_token',data.refresh_token);
+      if(data.expires_in) setTimeout(refreshSpotifyToken,(data.expires_in-60)*1000);
+    }
+  }catch(e){ console.warn('Token refresh failed',e); }
+}
+
+// Token paste field on setup page (shown after OAuth)
+function onSpotifyToken(token){
+  spotifyToken=token;
+  spotifyConnected=true;
+  updateSpotifyUI();
+  fetchSpotifyPlaylists();
+  fetchDevices();
+  spotifyPollTimer=setInterval(pollSpotifyPlayback,3000);
+  toast('✓ Spotify connected! Open Spotify on your phone/speaker to enable playback.');
+}
+
+function updateSpotifyUI(){
+  const btn=document.getElementById('spBtn');
+  btn.textContent=spotifyConnected?'✓ SPOTIFY LIVE':'CONNECT SPOTIFY';
+  btn.className=spotifyConnected?'sp-btn connected':'sp-btn';
+  document.getElementById('spStatus').style.display=spotifyConnected?'block':'none';
+  document.getElementById('spLinkLabel').textContent=spotifyConnected?'● Spotify Live':'Not connected';
+  document.getElementById('spLinkLabel').className=spotifyConnected?'sp-link-label live':'sp-link-label';
+  document.getElementById('spConnectBanner').style.display=spotifyConnected?'none':'block';
+  document.getElementById('plSection').style.display=spotifyConnected?'block':'none';
+  document.getElementById('demoQueue').style.display=spotifyConnected?'none':'block';
+  document.getElementById('volRow').style.display=spotifyConnected?'flex':'none';
+}
+
+// ─── SPOTIFY API CALLS ───
+async function spotifyApi(method,endpoint,body){
+  if(!spotifyToken) return null;
+  const opts={method,headers:{Authorization:'Bearer '+spotifyToken,'Content-Type':'application/json'}};
+  if(body) opts.body=JSON.stringify(body);
+  try{
+    const r=await fetch('https://api.spotify.com/v1'+endpoint,opts);
+    if(r.status===401){spotifyConnected=false;updateSpotifyUI();toast('Spotify token expired — reconnect');return null;}
+    if(r.status===204||r.status===202) return true;
+    return await r.json();
+  }catch(e){return null;}
+}
+
+// ─── DEVICE MANAGEMENT ───
+let activeDeviceId = null;
+
+async function fetchDevices(){
+  const data = await spotifyApi('GET', '/me/player/devices');
+  if(!data || !data.devices || data.devices.length === 0){
+    showDeviceModal();
+    return null;
+  }
+  // Prefer currently active device, else first available
+  const active = data.devices.find(d=>d.is_active) || data.devices[0];
+  activeDeviceId = active.id;
+  renderDeviceSelector(data.devices);
+  return activeDeviceId;
+}
+
+function renderDeviceSelector(devices){
+  let sel = document.getElementById('deviceSelector');
+  if(!sel){
+    const panel = document.getElementById('plSection');
+    const wrapper = document.createElement('div');
+    wrapper.style.cssText = 'padding:8px 14px 0;';
+    wrapper.innerHTML = `<div class="section-title" style="padding-top:8px;margin-bottom:4px;">Playback Device</div>
+      <select class="pl-select" id="deviceSelector" onchange="setDevice(this.value)"></select>
+      <div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-top:4px;padding-bottom:6px;">Music plays through this device</div>`;
+    panel.insertBefore(wrapper, panel.firstChild);
+    sel = document.getElementById('deviceSelector');
+  }
+  sel.innerHTML = devices.map(d =>
+    `<option value="${d.id}" ${d.id===activeDeviceId?'selected':''}>${d.name} ${d.is_active?'●':''}</option>`
+  ).join('');
+}
+
+function setDevice(id){
+  activeDeviceId = id;
+  // Transfer playback to selected device
+  spotifyApi('PUT', '/me/player', {device_ids:[id], play:false});
+  toast('Playback device set ✓');
+}
+
+function showDeviceModal(){
+  const existing = document.getElementById('deviceModal');
+  if(existing) existing.remove();
+  const modal = document.createElement('div');
+  modal.id = 'deviceModal';
+  modal.style.cssText = 'position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:3000;display:flex;align-items:center;justify-content:center;padding:20px;';
+  modal.innerHTML = `
+    <div style="background:var(--card);border:1px solid #1DB954;border-radius:6px;padding:24px;max-width:440px;width:100%;font-family:var(--body);">
+      <div style="font-family:var(--display);font-weight:900;font-size:1.1rem;letter-spacing:.1em;text-transform:uppercase;color:#1DB954;margin-bottom:14px;">No Playback Device Found</div>
+      <div style="font-size:.9rem;color:var(--muted);line-height:1.8;margin-bottom:18px;">
+        Safari on iPad can't play audio directly.<br>
+        To hear music, you need <strong style="color:var(--text)">Spotify open and playing on another device</strong> — then this app controls it remotely.<br><br>
+        <strong style="color:var(--text)">Quick fix:</strong><br>
+        1. Open the <strong style="color:var(--text)">Spotify app</strong> on your iPhone, a Mac, or a Bluetooth speaker with Spotify Connect<br>
+        2. Play any track to make it the active device<br>
+        3. Come back here and tap <strong style="color:var(--text)">Retry</strong>
+      </div>
+      <div style="display:flex;gap:8px;">
+        <button onclick="retryDevice()" style="flex:1;background:#1DB954;border:none;border-radius:3px;color:#000;padding:9px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">Retry</button>
+        <button onclick="document.getElementById('deviceModal').remove()" style="background:none;border:1px solid var(--border);border-radius:3px;color:var(--muted);padding:9px 14px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.8rem;letter-spacing:.1em;text-transform:uppercase;">Cancel</button>
+      </div>
+    </div>`;
+  document.body.appendChild(modal);
+}
+
+async function retryDevice(){
+  const modal = document.getElementById('deviceModal');
+  if(modal) modal.remove();
+  const id = await fetchDevices();
+  if(id) toast('Device found: ready to play ✓');
+}
+
+async function spotifyPlay(){
+  if(!activeDeviceId){
+    const id = await fetchDevices();
+    if(!id) return;
+  }
+  const pl = zonePlaylistMap[SEGMENTS[segIdx].zone];
+  const body = pl ? {context_uri:`spotify:playlist:${pl}`, device_ids:[activeDeviceId]} : {};
+  if(activeDeviceId) body.device_ids = [activeDeviceId];
+  await spotifyApi('PUT', `/me/player/play?device_id=${activeDeviceId}`, pl?{context_uri:`spotify:playlist:${pl}`}:{});
+  spotifyPlaying = true;
+  document.getElementById('musicPlayBtn').textContent = '⏸ PAUSE';
+}
+
+async function spotifyPauseCmd(){
+  await spotifyApi('PUT', '/me/player/pause');
+  spotifyPlaying = false;
+  document.getElementById('musicPlayBtn').textContent = '▶ PLAY';
+}
+
+async function spotifySkip(dir){
+  await spotifyApi('POST', `/me/player/${dir==='next'?'next':'previous'}`);
+  setTimeout(pollSpotifyPlayback, 500);
+}
+
+async function spotifyVolume(v){
+  await spotifyApi('PUT', `/me/player/volume?volume_percent=${v}`);
+}
+
+async function autoQueueZonePlaylist(zone){
+  const pl = zonePlaylistMap[zone];
+  if(!pl) return;
+  const body = {context_uri:`spotify:playlist:${pl}`};
+  await spotifyApi('PUT', `/me/player/play?device_id=${activeDeviceId}`, body);
+}
+
+async function fetchSpotifyPlaylists(){
+  const data=await spotifyApi('GET','/me/playlists?limit=50');
+  if(!data||!data.items) return;
+  const playlists=data.items;
+  [1,2,3,4,5].forEach(z=>{
+    const sel=document.getElementById(`plZ${z}`);
+    if(!sel) return;
+    sel.innerHTML=`<option value="">Z${z} ${ZONES[z].name} — select playlist</option>`;
+    playlists.forEach(p=>{
+      const opt=document.createElement('option');
+      opt.value=p.id;opt.textContent=p.name;
+      sel.appendChild(opt);
+    });
+  });
+}
+
+function setZonePlaylist(zone,plId){
+  zonePlaylistMap[zone]=plId||null;
+}
+
+async function pollSpotifyPlayback(){
+  const data=await spotifyApi('GET','/me/player/currently-playing');
+  if(!data||!data.item) return;
+  const item=data.item;
+  document.getElementById('npSong').textContent=item.name;
+  document.getElementById('npArtist').textContent=item.artists.map(a=>a.name).join(', ');
+  const img=item.album&&item.album.images&&item.album.images[0]?item.album.images[0].url:null;
+  const artEl=document.getElementById('npArt');
+  if(img){artEl.innerHTML=`<img src="${img}" alt="album art">`;}
+  else{artEl.textContent='🎵';}
+  const pct=item.duration_ms>0?(data.progress_ms/item.duration_ms)*100:0;
+  document.getElementById('npProgFill').style.width=pct+'%';
+  document.getElementById('npBpm').textContent='♫ Spotify';
+  spotifyPlaying=data.is_playing;
+  document.getElementById('musicPlayBtn').textContent=spotifyPlaying?'⏸ PAUSE':'▶ PLAY';
+}
+
+// Token input on setup page (add below setup section in JS)
+async function checkUrlToken(){
+  // Check for PKCE code in query string (auto-redirect case)
+  const urlParams=new URLSearchParams(window.location.search);
+  const code=urlParams.get('code');
+  if(code){
+    window.history.replaceState({},'',window.location.pathname);
+    const verifier=localStorage.getItem('sp_code_verifier');
+    const redir=window.location.href.split('#')[0].split('?')[0];
+    const cid=localStorage.getItem('sp_client_id')||EMBEDDED_CLIENT_ID;
+    if(verifier){
+      try{
+        const resp=await fetch('https://accounts.spotify.com/api/token',{
+          method:'POST',
+          headers:{'Content-Type':'application/x-www-form-urlencoded'},
+          body:new URLSearchParams({grant_type:'authorization_code',code,redirect_uri:redir,client_id:cid,code_verifier:verifier})
+        });
+        const data=await resp.json();
+        if(data.access_token){
+          localStorage.setItem('sp_access_token',data.access_token);
+          if(data.refresh_token) localStorage.setItem('sp_refresh_token',data.refresh_token);
+          if(data.expires_in) setTimeout(refreshSpotifyToken,(data.expires_in-60)*1000);
+          onSpotifyToken(data.access_token);
+        }
+      }catch(e){}
+    }
+  }
+  // Also restore saved token if still valid
+  const saved=localStorage.getItem('sp_access_token');
+  if(saved && !spotifyConnected){
+    spotifyToken=saved;
+    spotifyConnected=true;
+    updateSpotifyUI();
+    fetchSpotifyPlaylists();
+    spotifyPollTimer=setInterval(pollSpotifyPlayback,3000);
+  }
+}
+
+// ─── EDITOR ───
+function renderEditor(){
+  const tbody=document.getElementById('segTbody');
+  tbody.innerHTML='';
+  SEGMENTS.forEach((s,i)=>{
+    const tr=document.createElement('tr');tr.className='seg-row';tr.dataset.idx=i;
+    const zColors=['','#00cfff','#39e75f','#ffd600','#ff7a00','#ff1f40'];
+    tr.innerHTML=`
+      <td><button class="move-btn" onclick="moveUp(${i})">▲</button><button class="move-btn" onclick="moveDown(${i})">▼</button></td>
+      <td><input class="seg-input" value="${s.name}" onchange="SEGMENTS[${i}].name=this.value;updateSummary()"></td>
+      <td>
+        <select class="zone-select" style="border-left:3px solid ${zColors[s.zone]}" onchange="SEGMENTS[${i}].zone=parseInt(this.value);this.style.borderLeftColor='${zColors[s.zone]}';updateSummary()">
+          ${[1,2,3,4,5].map(z=>`<option value="${z}" ${z===s.zone?'selected':''} style="color:${zColors[z]}">Z${z} ${ZONES[z].name}</option>`).join('')}
+        </select>
+      </td>
+      <td><input class="dur-input" type="number" min="1" max="30" value="${s.durationMin}" onchange="SEGMENTS[${i}].durationMin=parseInt(this.value)||1;updateSummary()"></td>
+      <td><input class="seg-input cue-input" value="${s.cue}" onchange="SEGMENTS[${i}].cue=this.value"></td>
+      <td><button class="del-btn" onclick="deleteSegment(${i})">✕</button></td>`;
+    tbody.appendChild(tr);
+  });
+  updateSummary();
+}
+
+function updateSummary(){
+  const total=totalSeconds();
+  const mins=Math.round(total/60);
+  const zCounts={1:0,2:0,3:0,4:0,5:0};
+  SEGMENTS.forEach(s=>zCounts[s.zone]+=s.durationMin);
+  const zColors=['','#00cfff','#39e75f','#ffd600','#ff7a00','#ff1f40'];
+  const preview=SEGMENTS.map(s=>`<div class="zp-seg" style="flex:${s.durationMin};background:${zColors[s.zone]};opacity:.7" title="${s.name} ${s.durationMin}m"></div>`).join('');
+  document.getElementById('classSummary').innerHTML=`
+    <div class="cs-item">Total: <span class="cs-val">${mins} min</span></div>
+    <div class="cs-item">Segments: <span class="cs-val">${SEGMENTS.length}</span></div>
+    ${[1,2,3,4,5].map(z=>zCounts[z]?`<div class="cs-item" style="color:${zColors[z]}">Z${z}: <span class="cs-val" style="color:${zColors[z]}">${zCounts[z]}m</span></div>`:'').join('')}
+    <div class="zone-preview">${preview}</div>`;
+}
+
+function addSegment(){
+  SEGMENTS.push({name:'New Segment',zone:2,durationMin:3,cue:'Coaching cue here…'});
+  renderEditor();
+}
+
+function deleteSegment(i){
+  if(SEGMENTS.length<=1){toast('Need at least 1 segment');return;}
+  SEGMENTS.splice(i,1);renderEditor();
+}
+
+function moveUp(i){if(i>0){[SEGMENTS[i-1],SEGMENTS[i]]=[SEGMENTS[i],SEGMENTS[i-1]];renderEditor();}}
+function moveDown(i){if(i<SEGMENTS.length-1){[SEGMENTS[i],SEGMENTS[i+1]]=[SEGMENTS[i+1],SEGMENTS[i]];renderEditor();}}
+
+function saveSegments(){
+  elapsed=0;segIdx=0;segElapsed=0;running=false;
+  clearInterval(timer);
+  document.getElementById('startBtn').textContent='▶ START';
+  document.getElementById('startBtn').className='ctrl-btn primary';
+  renderAll();
+  showPageDirect('instructor');
+  toast('✓ Workout saved & applied!');
+}
+
+function showPageDirect(id){
+  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
+  document.getElementById('page-'+id).classList.add('active');
+  document.querySelectorAll('.nav-tab').forEach((t,i)=>{
+    const pages=['instructor','editor','setup'];
+    t.classList.toggle('active',pages[i]===id);
+  });
+}
+
+// ─── TOAST ───
+function toast(msg){
+  const t=document.createElement('div');t.className='toast';t.textContent=msg;
+  document.body.appendChild(t);setTimeout(()=>t.remove(),2500);
+}
+
+// ─── INIT ───
+const EMBEDDED_CLIENT_ID = 'fddeea9a7dc04c6db99a96251e444262';
+
+function init(){
+  // Use embedded client ID as default, allow override from localStorage
+  clientId = localStorage.getItem('sp_client_id') || EMBEDDED_CLIENT_ID;
+  redirectUri = localStorage.getItem('sp_redirect') || 'https://keithkeaveny.github.io/spin-command/spincommand.html';
+
+  // Pre-fill setup page fields
+  document.getElementById('clientIdInput').value = clientId;
+  document.getElementById('redirectInput').value = redirectUri;
+
+  // Store embedded ID so it persists
+  localStorage.setItem('sp_client_id', clientId);
+
+  buildDemoQueue();renderDemoTrack();renderAll();updateSpotifyUI();
+  checkUrlToken();
+
+  // If we have a client ID ready, update the connect button to be more prominent
+  if(clientId){
+    const btn=document.getElementById('spBtn');
+    btn.title='Click to authorise with Spotify';
+  }
+}
+init();
+</script>
+</body>
+</html>
