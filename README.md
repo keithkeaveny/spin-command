@@ -1,1 +1,1 @@
-# spin-command
+# spincommand
