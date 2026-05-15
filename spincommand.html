@@ -344,6 +344,105 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 .over-target{background:rgba(255,214,0,.08);border-color:var(--z3)!important;}
 .under-target{background:rgba(0,207,255,.04);}
 
+
+/* ══════════════════ LIBRARY PAGE ══════════════════ */
+.library-page{display:grid;grid-template-columns:280px 1fr;height:calc(100vh - 97px);overflow:hidden;}
+
+/* Left sidebar */
+.lib-sidebar{border-right:1px solid var(--border);display:flex;flex-direction:column;overflow:hidden;background:var(--surface);}
+.lib-sidebar-header{padding:14px 16px 10px;border-bottom:1px solid var(--border);}
+.lib-sidebar-title{font-family:var(--display);font-weight:900;font-size:1rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:10px;}
+.lib-dur-row{display:flex;gap:4px;margin-bottom:8px;}
+.lib-dur-btn{background:none;border:1px solid var(--border);border-radius:20px;color:var(--muted);padding:3px 12px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;transition:all .15s;}
+.lib-dur-btn.active{background:var(--z3);border-color:var(--z3);color:#000;}
+.lib-dur-btn:hover:not(.active){border-color:var(--text);color:var(--text);}
+.course-list{flex:1;overflow-y:auto;}
+.course-item{padding:10px 16px;border-bottom:1px solid rgba(30,40,64,.5);cursor:pointer;transition:background .15s;position:relative;}
+.course-item:hover{background:rgba(255,255,255,.03);}
+.course-item.active{background:rgba(255,255,255,.06);}
+.course-item::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.course-item-name{font-family:var(--display);font-weight:700;font-size:.88rem;text-transform:uppercase;letter-spacing:.06em;margin-bottom:2px;}
+.course-item-meta{font-family:var(--mono);font-size:.65rem;color:var(--muted);}
+.course-progress-bar{height:3px;background:var(--border);border-radius:2px;margin-top:6px;overflow:hidden;}
+.course-progress-fill{height:100%;border-radius:2px;transition:width .3s;}
+.course-progress-label{font-family:var(--mono);font-size:.58rem;color:var(--muted);margin-top:3px;}
+
+/* Main content */
+.lib-main{display:flex;flex-direction:column;overflow:hidden;}
+.lib-main-header{padding:14px 20px 10px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px;}
+.lib-main-title{font-family:var(--display);font-weight:900;font-size:1.1rem;letter-spacing:.08em;text-transform:uppercase;flex:1;}
+.lib-main-subtitle{font-family:var(--body);font-size:.78rem;color:var(--muted);}
+.lib-next-badge{background:rgba(0,207,255,.1);border:1px solid var(--z1);border-radius:3px;padding:4px 10px;font-family:var(--display);font-weight:700;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--z1);flex-shrink:0;}
+
+.lib-content{flex:1;overflow-y:auto;padding:14px 20px;}
+
+/* Class cards grid */
+.class-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:10px;margin-bottom:20px;}
+.class-card{background:var(--card);border:1px solid var(--border);border-radius:4px;padding:12px 14px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;}
+.class-card::before{content:'';position:absolute;top:0;left:0;right:0;height:3px;}
+.class-card:hover{transform:translateY(-2px);box-shadow:0 4px 20px rgba(0,0,0,.3);}
+.class-card.completed{opacity:.7;}
+.class-card.completed::after{content:'✓ DONE';position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:.58rem;color:var(--z2);background:rgba(57,231,95,.1);border:1px solid var(--z2);border-radius:2px;padding:2px 6px;}
+.class-card.next-up{border-color:var(--z1);box-shadow:0 0 12px rgba(0,207,255,.15);}
+.class-card.next-up::after{content:'▶ NEXT UP';position:absolute;top:8px;right:10px;font-family:var(--mono);font-size:.58rem;color:var(--z1);background:rgba(0,207,255,.1);border:1px solid var(--z1);border-radius:2px;padding:2px 6px;}
+.class-card-num{font-family:var(--mono);font-size:.65rem;color:var(--muted);margin-bottom:4px;}
+.class-card-title{font-family:var(--display);font-weight:900;font-size:.95rem;text-transform:uppercase;letter-spacing:.05em;margin-bottom:4px;}
+.class-card-focus{font-family:var(--body);font-size:.75rem;color:var(--muted);margin-bottom:8px;line-height:1.4;}
+.class-card-meta{display:flex;gap:6px;flex-wrap:wrap;}
+.class-meta-tag{font-family:var(--mono);font-size:.6rem;color:var(--muted);background:var(--border);padding:2px 7px;border-radius:2px;}
+.class-meta-tag.done-date{color:var(--z2);background:rgba(57,231,95,.08);}
+.class-load-btn{margin-top:10px;width:100%;background:none;border:1px solid var(--border);border-radius:3px;color:var(--muted);padding:6px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;transition:all .2s;}
+.class-card:hover .class-load-btn{border-color:var(--z1);color:var(--z1);}
+.class-card.next-up .class-load-btn{border-color:var(--z1);color:var(--z1);background:rgba(0,207,255,.06);}
+
+/* History section */
+.history-section{margin-top:16px;}
+.history-title{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.history-empty{font-family:var(--body);font-size:.82rem;color:var(--muted);font-style:italic;padding:12px 0;}
+.history-item{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:3px;margin-bottom:6px;}
+.history-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.history-info{flex:1;min-width:0;}
+.history-class{font-family:var(--display);font-weight:700;font-size:.82rem;text-transform:uppercase;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.history-course{font-family:var(--body);font-size:.7rem;color:var(--muted);}
+.history-date{font-family:var(--mono);font-size:.65rem;color:var(--muted);flex-shrink:0;text-align:right;}
+.history-del{background:none;border:none;color:var(--muted);cursor:pointer;font-size:.75rem;padding:2px 6px;flex-shrink:0;transition:color .15s;}
+.history-del:hover{color:var(--z5);}
+
+/* Planner */
+.planner-section{margin-top:16px;}
+.planner-title{font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);margin-bottom:10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+.planner-grid{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:12px;}
+.planner-day{background:var(--card);border:1px solid var(--border);border-radius:3px;padding:6px 4px;text-align:center;min-height:60px;cursor:pointer;transition:background .15s;}
+.planner-day:hover{background:rgba(255,255,255,.04);}
+.planner-day.today{border-color:var(--z1);}
+.planner-day.has-class{background:rgba(0,207,255,.06);}
+.planner-day.has-history{background:rgba(57,231,95,.06);}
+.planner-day-label{font-family:var(--mono);font-size:.55rem;color:var(--muted);margin-bottom:2px;}
+.planner-day-num{font-family:var(--display);font-weight:700;font-size:.82rem;}
+.planner-day.today .planner-day-num{color:var(--z1);}
+.planner-day-content{font-family:var(--display);font-size:.55rem;color:var(--z1);margin-top:3px;line-height:1.3;text-transform:uppercase;}
+.planner-day-done{font-family:var(--mono);font-size:.52rem;color:var(--z2);}
+.planner-nav{display:flex;align-items:center;gap:8px;margin-bottom:8px;}
+.planner-nav-btn{background:none;border:1px solid var(--border);border-radius:2px;color:var(--muted);padding:4px 10px;cursor:pointer;font-family:var(--mono);font-size:.7rem;transition:all .15s;}
+.planner-nav-btn:hover{background:var(--border);color:var(--text);}
+.planner-month-label{font-family:var(--display);font-weight:700;font-size:.82rem;text-transform:uppercase;letter-spacing:.1em;flex:1;}
+.schedule-rows{display:flex;flex-direction:column;gap:6px;}
+.schedule-row{display:flex;align-items:center;gap:10px;padding:8px 12px;background:var(--card);border:1px solid var(--border);border-radius:3px;}
+.sched-date{font-family:var(--mono);font-size:.68rem;color:var(--muted);width:80px;flex-shrink:0;}
+.sched-course{width:10px;height:10px;border-radius:50%;flex-shrink:0;}
+.sched-info{flex:1;}
+.sched-name{font-family:var(--display);font-weight:700;font-size:.82rem;text-transform:uppercase;}
+.sched-detail{font-family:var(--body);font-size:.68rem;color:var(--muted);}
+.sched-actions{display:flex;gap:5px;flex-shrink:0;}
+.sched-btn{background:none;border:1px solid var(--border);border-radius:2px;color:var(--muted);padding:3px 8px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.08em;text-transform:uppercase;transition:all .15s;}
+.sched-btn:hover{color:var(--text);border-color:var(--text);}
+.sched-btn.load{border-color:var(--z1);color:var(--z1);}
+.sched-btn.del{border-color:var(--z5);color:var(--z5);}
+.add-schedule-row{display:flex;gap:8px;margin-top:8px;flex-wrap:wrap;}
+.sched-input{background:var(--card);border:1px solid var(--border);border-radius:3px;color:var(--text);padding:5px 9px;font-family:var(--mono);font-size:.75rem;}
+.sched-input:focus{outline:none;border-color:var(--z1);}
+.sched-add-btn{background:var(--z1);border:none;border-radius:3px;color:#000;padding:5px 14px;cursor:pointer;font-family:var(--display);font-weight:700;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;}
+
 /* scrollbar */
 ::-webkit-scrollbar{width:4px;} ::-webkit-scrollbar-track{background:transparent;} ::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px;}
 
@@ -379,6 +478,7 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 <div class="nav-tabs">
   <button class="nav-tab active" onclick="showPage('instructor')">▶ Instructor</button>
   <button class="nav-tab" onclick="showPage('editor')">✎ Edit Workout</button>
+  <button class="nav-tab" onclick="showPage('library')">📚 Library</button>
   <button class="nav-tab" onclick="showPage('builder')">🏗 Class Builder</button>
   <button class="nav-tab" onclick="showPage('setup')">⚙ Spotify Setup</button>
 </div>
@@ -670,6 +770,73 @@ header{display:flex;align-items:center;justify-content:space-between;padding:10p
 </div>
 </div>
 
+
+<!-- ══ PAGE: LIBRARY ══ -->
+<div id="page-library" class="page">
+<div class="library-page">
+
+  <!-- LEFT: Course Sidebar -->
+  <div class="lib-sidebar">
+    <div class="lib-sidebar-header">
+      <div class="lib-sidebar-title">📚 Course Library</div>
+      <div class="lib-dur-row">
+        <button class="lib-dur-btn active" onclick="setLibDurFilter('all',this)">All</button>
+        <button class="lib-dur-btn" onclick="setLibDurFilter(30,this)">30 min</button>
+        <button class="lib-dur-btn" onclick="setLibDurFilter(45,this)">45 min</button>
+        <button class="lib-dur-btn" onclick="setLibDurFilter(60,this)">60 min</button>
+      </div>
+    </div>
+    <div class="course-list" id="courseList"></div>
+  </div>
+
+  <!-- RIGHT: Class View -->
+  <div class="lib-main">
+    <div class="lib-main-header">
+      <div>
+        <div class="lib-main-title" id="libMainTitle">Select a course</div>
+        <div class="lib-main-subtitle" id="libMainSubtitle">Choose a course from the left to see all classes</div>
+      </div>
+      <div class="lib-next-badge" id="libNextBadge" style="display:none">▶ NEXT UP</div>
+    </div>
+
+    <div class="lib-content">
+
+      <!-- Class cards -->
+      <div id="libClassSection">
+        <div class="class-grid" id="classGrid"></div>
+      </div>
+
+      <!-- History -->
+      <div class="history-section">
+        <div class="history-title">📋 Class History — All Courses</div>
+        <div id="historyList"></div>
+      </div>
+
+      <!-- Planner -->
+      <div class="planner-section">
+        <div class="planner-title">📅 Class Planner</div>
+        <div class="planner-nav">
+          <button class="planner-nav-btn" onclick="plannerMonth(-1)">◀</button>
+          <div class="planner-month-label" id="plannerMonthLabel"></div>
+          <button class="planner-nav-btn" onclick="plannerMonth(1)">▶</button>
+        </div>
+        <div class="planner-grid" id="plannerGrid"></div>
+        <div class="planner-title" style="margin-top:14px">Upcoming Scheduled Classes</div>
+        <div class="schedule-rows" id="scheduleRows"></div>
+        <div class="add-schedule-row">
+          <input type="date" class="sched-input" id="schedDate">
+          <select class="sched-input" id="schedCourseSelect" style="flex:1"></select>
+          <select class="sched-input" id="schedClassSelect" style="flex:1"></select>
+          <button class="sched-add-btn" onclick="addScheduledClass()">+ Schedule</button>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+</div>
+</div>
+
 <!-- ══ PAGE: SETUP ══ -->
 <div id="page-setup" class="page">
 <div class="setup-page">
@@ -829,6 +996,7 @@ function showPage(id){
   event.target.classList.add('active');
   if(id==='editor') renderEditor();
   if(id==='builder'){ renderDrillLibrary(libFilter); renderTemplates(); }
+  if(id==='library') renderLibrary();
 }
 
 // ─── WALL CLOCK ───
@@ -931,6 +1099,7 @@ function tick(){
       clearInterval(timer);running=false;
       document.getElementById('startBtn').textContent='✓ DONE';
       document.getElementById('startBtn').className='ctrl-btn';
+      checkAndRecordCompletion();
     }
   }
   if(elapsed>=totalSeconds()) elapsed=totalSeconds();
@@ -1479,9 +1648,10 @@ function showPageDirect(id){
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   document.getElementById('page-'+id).classList.add('active');
   document.querySelectorAll('.nav-tab').forEach((t,i)=>{
-    const pages=['instructor','editor','setup'];
+    const pages=['instructor','editor','library','builder','setup'];
     t.classList.toggle('active',pages[i]===id);
   });
+  if(id==='library') renderLibrary();
 }
 
 // ─── TOAST ───
@@ -1721,7 +1891,7 @@ function loadTemplate(t){
   buildDrills = t.drills.map(id=>{
     const d = DRILL_LIBRARY.find(x=>x.id===id);
     if(!d) return null;
-    return { ...d, customMin: d.defaultMin };
+    return Object.assign({}, d, { customMin: d.defaultMin });
   }).filter(Boolean);
   renderBuildArea();
   toast(`✓ Template loaded: ${t.name}`);
@@ -1731,7 +1901,7 @@ function loadTemplate(t){
 function addDrill(id){
   const d = DRILL_LIBRARY.find(x=>x.id===id);
   if(!d) return;
-  buildDrills.push({...d, customMin: d.defaultMin});
+  buildDrills.push(Object.assign({}, d, { customMin: d.defaultMin }));
   renderBuildArea();
   toast(`+ ${d.name} added`);
 }
@@ -1822,7 +1992,7 @@ function autoBuilder(){
   let plan = [];
 
   // Always start with warm-up
-  plan.push({...DRILL_LIBRARY.find(d=>d.id==='wu'), customMin:5});
+  var _wu = DRILL_LIBRARY.find(d=>d.id==='wu'); plan.push(Object.assign({}, _wu, { customMin:5 }));
   let used = 5;
 
   // Always end with cool-down (5 min for 45+, 3 for 30)
@@ -1840,19 +2010,19 @@ function autoBuilder(){
     if(!fits.length) break;
     const pick = fits[Math.floor(Math.random()*fits.length)];
     const dur = Math.min(pick.defaultMin, remaining);
-    plan.push({...pick, customMin:dur});
+    plan.push(Object.assign({}, pick, { customMin:dur }));
     used += dur; remaining -= dur;
     // Add recovery after high-intensity blocks
     if(pick.zone >= 4 && remaining > 2){
       const recMin = Math.min(2, remaining);
-      plan.push({...DRILL_LIBRARY.find(d=>d.id==='ar'), customMin:recMin});
+      var _ar = DRILL_LIBRARY.find(d=>d.id==='ar'); plan.push(Object.assign({}, _ar, { customMin:recMin }));
       used += recMin; remaining -= recMin;
     }
     attempts++;
   }
 
   // Cool down
-  plan.push({...DRILL_LIBRARY.find(d=>d.id==='cd'), customMin:cdMin});
+  var _cd = DRILL_LIBRARY.find(d=>d.id==='cd'); plan.push(Object.assign({}, _cd, { customMin:cdMin }));
 
   buildDrills = plan;
   renderBuildArea();
@@ -1883,6 +2053,521 @@ function initBuilder(){
   renderDrillLibrary();
   renderTemplates();
 }
+
+
+// ══════════════════════════════════════════
+// COURSE LIBRARY & HISTORY SYSTEM
+// ══════════════════════════════════════════
+
+// ─── FULL COURSE DATA ───
+const COURSES = [
+  { id:'beginners', name:'Beginners', color:'#00cfff', duration:45, icon:'🚴',
+    desc:'10-class foundation course for new riders',
+    classes:[
+      {num:1,title:'First Ride',focus:'Getting comfortable on the bike',segments:[
+        {name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin, settle in, deep breaths'},
+        {name:'Easy Flat',zone:1,durationMin:8,cue:'Relaxed pace, soft hands, eyes forward'},
+        {name:'Cadence Play',zone:2,durationMin:6,cue:'Speed up slightly — feel the difference'},
+        {name:'Active Recovery',zone:1,durationMin:3,cue:'Flush the legs, control your breath'},
+        {name:'First Resistance Climb',zone:2,durationMin:6,cue:'Add a little resistance — keep the rhythm'},
+        {name:'Recover & Settle',zone:1,durationMin:5,cue:'Drop it back, you did great'},
+        {name:'Easy Finish',zone:1,durationMin:7,cue:'Comfortable spin to finish'},
+        {name:'Cool Down',zone:1,durationMin:5,cue:'Dial back, breathe slowly'},
+      ],music:["Don't Stop Me Now — Queen","Happy — Pharrell Williams","Uptown Funk — Bruno Mars","Shake It Off — Taylor Swift","Dancing Queen — ABBA","I Gotta Feeling — Black Eyed Peas"]},
+      {num:2,title:'Building Confidence',focus:'Consistent cadence at light resistance',segments:[
+        {name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin, settle in'},
+        {name:'Steady Base',zone:2,durationMin:8,cue:'Find your pace and hold it — this is Zone 2'},
+        {name:'Light Climb',zone:2,durationMin:5,cue:'Add a gear — keep pedalling smoothly'},
+        {name:'Active Recovery',zone:1,durationMin:3,cue:'Flush the legs'},
+        {name:'Tempo Introduction',zone:3,durationMin:6,cue:'Push a little harder — breathe rhythmically'},
+        {name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},
+        {name:'Steady Finish',zone:2,durationMin:7,cue:'Comfortable and controlled'},
+        {name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'},
+      ],music:["Levitating — Dua Lipa","Blinding Lights — The Weeknd","Good as Hell — Lizzo","Watermelon Sugar — Harry Styles","Superstition — Stevie Wonder","Lovely Day — Bill Withers"]},
+      {num:3,title:'Rhythm & Flow',focus:'Moving with the music',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Beat Riding',zone:2,durationMin:8,cue:'Match your pedal stroke to the beat'},{name:'Double Time Fun',zone:2,durationMin:5,cue:'Spin up with the music'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Groove Climb',zone:3,durationMin:7,cue:'Heavier legs, same rhythm'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Final Push',zone:3,durationMin:6,cue:'Ride the music home'},{name:'Cool Down',zone:1,durationMin:4,cue:'Bring it down'}],music:["Can't Stop the Feeling! — Justin Timberlake","Stayin Alive — Bee Gees","Everybody — Backstreet Boys","Footloose — Kenny Loggins","Jump (For My Love) — Pointer Sisters","September — Earth Wind & Fire"]},
+      {num:4,title:'The First Climb',focus:'Introduction to resistance training',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Flat Warm Ride',zone:2,durationMin:6,cue:'Easy flat'},{name:'First Hill',zone:3,durationMin:7,cue:'Feel the climb'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Steeper Climb',zone:3,durationMin:6,cue:'More resistance'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Power Finish',zone:3,durationMin:7,cue:'Strong to the end'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eye of the Tiger — Survivor","The Climb — Miley Cyrus","Thunderstruck — AC/DC","We Will Rock You — Queen","Lose Yourself — Eminem","Here Comes the Sun — The Beatles"]},
+      {num:5,title:'Finding Your Limit',focus:'First taste of higher intensity',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Base Build',zone:2,durationMin:7,cue:'Build gradually'},{name:'First Hard Effort',zone:4,durationMin:2,cue:'Push hard for 2 minutes'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Second Effort',zone:4,durationMin:2,cue:'Same effort'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Third Effort',zone:4,durationMin:2,cue:'Last one'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Tempo Cooldown',zone:2,durationMin:5,cue:'Cruise'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Stronger — Kelly Clarkson","Till I Collapse — Eminem","Roar — Katy Perry","Jump Around — House of Pain","Run the World — Beyoncé","Imagine — John Lennon"]},
+      {num:6,title:'Steady State Endurance',focus:'Sustaining moderate effort',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Endurance Block 1',zone:2,durationMin:10,cue:'Find your pace'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Endurance Block 2',zone:3,durationMin:10,cue:'Slightly harder'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Strong Finish',zone:3,durationMin:7,cue:'Dig in'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Running Up That Hill — Kate Bush","Mr Brightside — The Killers","Sweet Child O Mine — GNR","Human — The Killers","Bohemian Rhapsody — Queen","Heroes — David Bowie"]},
+      {num:7,title:'Mixed Terrain',focus:'Variety of effort and terrain',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Flat Road',zone:2,durationMin:5,cue:'Smooth flat'},{name:'Rolling Hill',zone:3,durationMin:5,cue:'Undulating terrain'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Short Sprint',zone:5,durationMin:1,cue:'Sprint! 60 seconds'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Climb',zone:4,durationMin:5,cue:'Long climb'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Descent & Roll Out',zone:2,durationMin:5,cue:'Enjoy the descent'},{name:'Final Flat',zone:2,durationMin:4,cue:'Strong to end'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Africa — Toto","Jump — Van Halen","Sabotage — Beastie Boys","Welcome to the Jungle — GNR","Free Fallin' — Tom Petty","Walking on Sunshine — Katrina & the Waves"]},
+      {num:8,title:'Pushing Harder',focus:'Building work capacity',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Progressive Build',zone:2,durationMin:5,cue:'Building today'},{name:'Threshold Block 1',zone:4,durationMin:4,cue:'Hard effort'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Threshold Block 2',zone:4,durationMin:4,cue:'Same again'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Threshold Block 3',zone:4,durationMin:4,cue:'Final block'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Tempo Cooldown',zone:2,durationMin:4,cue:'Glorious recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Power — Kanye West","Killing In The Name — RATM","Enter Sandman — Metallica","Lose Control — Missy Elliott","Titanium — David Guetta ft. Sia","Beautiful Day — U2"]},
+      {num:9,title:'The Big Climb',focus:'Extended climbing endurance',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Approach',zone:2,durationMin:5,cue:'Heading to the mountain'},{name:'Lower Slopes',zone:3,durationMin:5,cue:'Gradient increasing'},{name:'Mid Climb',zone:4,durationMin:5,cue:'The climb talking'},{name:'Summit Push',zone:4,durationMin:4,cue:'Nearly there'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Victory Lap',zone:2,durationMin:5,cue:'Ride home'},{name:'Reflection Ride',zone:1,durationMin:4,cue:"Think how far you've come"},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Everest — Labrinth","In The Air Tonight — Phil Collins","Immigrant Song — Led Zeppelin","Master of Puppets — Metallica","Proud — Heather Small","Don't Look Back In Anger — Oasis"]},
+      {num:10,title:'Graduation Ride',focus:'Full class incorporating all skills',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Base Confidence',zone:2,durationMin:5,cue:"You know what you're doing"},{name:'Tempo Block',zone:3,durationMin:5,cue:'Strong tempo'},{name:'Climb',zone:4,durationMin:4,cue:'The climb'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Sprint',zone:5,durationMin:1,cue:'Sprint!'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Threshold Finish',zone:4,durationMin:4,cue:'Last hard effort'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Celebration Spin',zone:1,durationMin:5,cue:'Ride with pride'},{name:'Cool Down',zone:1,durationMin:5,cue:'Graduation cool down'}],music:["We Are The Champions — Queen","Good Feeling — Flo Rida","Thunderstruck — AC/DC","We Found Love — Rihanna ft. Calvin Harris","I Will Survive — Gloria Gaynor","Celebrate — Kool and the Gang"]},
+    ]
+  },
+  { id:'speed', name:'Speed Work', color:'#E91E8C', duration:45, icon:'⚡',
+    desc:'10-class speed development course — cadence and sprint training',
+    classes:[
+      {num:1,title:'Spin Speed Foundations',focus:'Cadence above 90 RPM',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Cadence Drills',zone:2,durationMin:8,cue:'Spin light and fast'},{name:'Spin Up 1',zone:2,durationMin:3,cue:'Increase cadence'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Spin Up 2',zone:2,durationMin:3,cue:'Same again'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Speed Endurance',zone:3,durationMin:8,cue:'Hold the speed'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Around the World — Daft Punk","Technologic — Daft Punk","Get Lucky — Daft Punk","One More Time — Daft Punk","Harder Better Faster Stronger — Daft Punk","Digital Love — Daft Punk"]},
+      {num:2,title:'Fast Legs',focus:'Sub-threshold high cadence',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Speed Base',zone:2,durationMin:10,cue:'Fast legs, relaxed upper body'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Fast Tempo',zone:3,durationMin:8,cue:'Add resistance'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Speed Surge',zone:3,durationMin:5,cue:'Push the cadence higher'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Speed Hold',zone:3,durationMin:3,cue:'Hold it'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Mr Brightside — The Killers","All The Small Things — Blink-182","Born to Run — Bruce Springsteen","Jump Around — House of Pain","Firestarter — Prodigy","Always Look on the Bright Side — Monty Python"]},
+      {num:3,title:'Speed Intervals',focus:'Repeated high-cadence bursts',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Prep Spin',zone:2,durationMin:5,cue:'Build cadence'},{name:'Speed Interval x8',zone:4,durationMin:16,cue:'8x 1min sprint / 2min recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Pump It — Black Eyed Peas","Sabotage — Beastie Boys","Bulls on Parade — RATM","Killing in the Name — RATM","Take Me Out — Franz Ferdinand","Float On — Modest Mouse"]},
+      {num:4,title:'The Flying 500s',focus:'Race-pace cadence simulation',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Rolling Start',zone:2,durationMin:5,cue:'Build speed'},{name:'Flying 500 x3',zone:5,durationMin:15,cue:'3x 2min flying sprint / 3min recovery'},{name:'Speed Endurance',zone:3,durationMin:5,cue:'Maintain race pace'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["HUMBLE — Kendrick Lamar","DNA — Kendrick Lamar","Numb/Encore — Jay-Z ft. Linkin Park","Run This Town — Jay-Z ft. Rihanna","Otis — Jay-Z & Kanye West","Sprint — Nicki Minaj"]},
+      {num:5,title:'Cadence Ladders',focus:'Progressive cadence increase',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'RPM Ladder 80→105',zone:3,durationMin:18,cue:'5 RPM steps up, then reverse'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Reverse Ladder',zone:3,durationMin:5,cue:'Build resistance back'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Can't Hold Us — Macklemore","Run — Snow Patrol","Jump — Kris Kross","Lose Yourself — Eminem","Till I Collapse — Eminem","The Sound of Silence — Disturbed"]},
+      {num:6,title:'Micro-Sprint Madness',focus:'Very short maximum cadence bursts',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Activation Spin',zone:2,durationMin:5,cue:'Wake the legs'},{name:'10x 30sec Sprints',zone:5,durationMin:20,cue:'30 sec GO / 1 min rest x 10'},{name:'Recovery Roll',zone:1,durationMin:4,cue:'Ten sprints done — legendary'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Kernkraft 400 — Zombie Nation","Eye of the Tiger — Survivor","Firestarter — Prodigy","I Gotta Feeling — Black Eyed Peas","Jump Up Super Star","Power (Remix) — Kanye West"]},
+      {num:7,title:'Race Simulation',focus:'Sustained speed under pressure',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Peloton Warm',zone:2,durationMin:5,cue:'Riding in the bunch'},{name:'Race Efforts',zone:5,durationMin:20,cue:'Attacks, gaps, bridges, sprints'},{name:'Warm Down Lap',zone:1,durationMin:4,cue:'Victory lap'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Born to Run — Bruce Springsteen","Bat Out of Hell — Meat Loaf","Jump — Van Halen","Highway to Hell — AC/DC","The Final Countdown — Europe","Bike — Pink Floyd"]},
+      {num:8,title:'Neuromuscular Power',focus:'Explosive fast-twitch activation',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'NM Prep',zone:2,durationMin:5,cue:'Prime the nervous system'},{name:'10x 20sec Power Reps',zone:5,durationMin:25,cue:'20 sec ALL OUT / 2 min recovery x 10'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Stronger — Daft Punk","Pump It Up — Danzel","Party Rock Anthem — LMFAO","Levels — Avicii","Wake Me Up — Avicii","Hey Brother — Avicii"]},
+      {num:9,title:'Speed Under Fatigue',focus:'Maintaining speed when tired',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Pre-Fatigue Block 1',zone:3,durationMin:8,cue:'Build the fatigue'},{name:'Pre-Fatigue Block 2',zone:4,durationMin:6,cue:'Harder now'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Fatigue Sprint x3',zone:5,durationMin:9,cue:'3x sprint despite fatigue'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Radioactive — Imagine Dragons","Monster — Imagine Dragons","Warriors — Imagine Dragons","Natural — Imagine Dragons","Enemy — Imagine Dragons","Demons — Imagine Dragons"]},
+      {num:10,title:'Speed Graduation',focus:'All speed skills in one class',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Speed Base',zone:2,durationMin:5,cue:'This was once your top speed'},{name:'Cadence Ladder',zone:3,durationMin:4,cue:'Climb the ladder'},{name:'Sprint Series',zone:5,durationMin:5,cue:'3x 1 min sprints'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Race Simulation',zone:4,durationMin:6,cue:'Race pace'},{name:'Final Sprint',zone:5,durationMin:1,cue:'FINAL SPRINT'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:"Champion's Lap",zone:1,durationMin:4,cue:'Lap of honour'},{name:'Cool Down',zone:1,durationMin:5,cue:'Graduation cool down'}],music:["We Are The Champions — Queen","Speed Demon — Michael Jackson","Supersonic — Oasis","The Pretender — Foo Fighters","Finally — CeCe Peniston","I Will Survive — Gloria Gaynor"]},
+    ]
+  },
+  { id:'hills', name:'Hills', color:'#27AE60', duration:45, icon:'⛰',
+    desc:'10-class climbing mastery course — seated, standing and strength climbing',
+    classes:[
+      {num:1,title:'Rolling Hills Introduction',focus:'Seated climbing technique',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Rolling Road',zone:2,durationMin:6,cue:'Flat approach'},{name:'First Hill',zone:3,durationMin:5,cue:'Feel the gradient'},{name:'Descent',zone:2,durationMin:3,cue:'Earned descent'},{name:'Second Hill',zone:3,durationMin:6,cue:'Same technique'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Steady Climb Home',zone:3,durationMin:5,cue:'Strong to summit'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["The Climb — Miley Cyrus","Everest — Labrinth","Higher — Creed","Take Me to Church — Hozier","Seven Nation Army — The White Stripes","Fix You — Coldplay"]},
+      {num:2,title:'Standing Climbs',focus:'Out-of-saddle technique',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Seated Base',zone:2,durationMin:5,cue:'Seated position locked'},{name:'Standing Intro',zone:3,durationMin:4,cue:'Rise out of the saddle'},{name:'Sit-Stand Intervals',zone:3,durationMin:6,cue:'30 sec each'},{name:'Heavy Standing',zone:4,durationMin:4,cue:'Maximum resistance'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Combo Finish',zone:4,durationMin:5,cue:'Own the standing position'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Rock You Like a Hurricane — Scorpions","Black Betty — Ram Jam","Whole Lotta Love — Led Zeppelin","Highway to Hell — AC/DC","Iron Man — Black Sabbath","Back in Black — AC/DC"]},
+      {num:3,title:'Long Sustained Climbs',focus:'Aerobic climbing endurance',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Valley Approach',zone:2,durationMin:5,cue:'Prepare mentally'},{name:'The Big Ascent',zone:4,durationMin:12,cue:'Settle in for the long haul'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Second Peak',zone:4,durationMin:6,cue:'One more'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Kashmir — Led Zeppelin","Run — Snow Patrol","Comfortably Numb — Pink Floyd","Stairway to Heaven — Led Zeppelin","Where the Streets Have No Name — U2","The Sound of Silence — Simon & Garfunkel"]},
+      {num:4,title:'Hill Sprints',focus:'Explosive climbing power',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Hill Approach',zone:2,durationMin:5,cue:'Save energy'},{name:'6x Hill Sprints',zone:5,durationMin:24,cue:'6x 2min hill sprint / 2min recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Welcome to the Jungle — GNR","Bohemian Rhapsody — Queen","Thunderstruck — AC/DC","Master of Puppets — Metallica","Seek & Destroy — Metallica","Nothing Else Matters — Metallica"]},
+      {num:5,title:'Alpine Stage',focus:'Varied climbing terrain',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Valley Floor',zone:2,durationMin:4,cue:'Flat valley'},{name:'Rolling Hills',zone:3,durationMin:5,cue:'Undulating terrain'},{name:'Steady Climb',zone:4,durationMin:6,cue:'Consistent gradient'},{name:'False Flat',zone:3,durationMin:3,cue:'Slight relief'},{name:'Summit Push',zone:5,durationMin:3,cue:'Final kilometres'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Descent',zone:2,durationMin:4,cue:'Screaming descent'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Tour de France — Kraftwerk","Alpine — Bon Iver","Visions of Gideon — Sufjan Stevens","The Sound of Music — Julie Andrews","Ode to My Family — The Cranberries","Green Eyes — Coldplay"]},
+      {num:6,title:'Strength Climbs',focus:'Low cadence, high resistance',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Strength Prep',zone:2,durationMin:5,cue:'Prepare for heavy work'},{name:'3x Strength Climbs',zone:4,durationMin:15,cue:'3x 5min heavy climb / brief rest'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Power Flush',zone:3,durationMin:4,cue:'Spin out the legs'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["War Pigs — Black Sabbath","Supermassive Black Hole — Muse","Map of the Problematique — Muse","Stockholm Syndrome — Muse","Uprising — Muse","Knights of Cydonia — Muse"]},
+      {num:7,title:'Climb & Sprint Combo',focus:'Transition from climb to sprint',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Climb Block 1',zone:4,durationMin:4,cue:'Seated climb'},{name:'Climb to Sprint 1',zone:5,durationMin:2,cue:'Strip resistance — SPRINT'},{name:'Climb Block 2',zone:4,durationMin:4,cue:'Back to climb'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Climb to Sprint 2',zone:5,durationMin:2,cue:'One more sprint'},{name:'Standing Sprint Finish',zone:5,durationMin:2,cue:'Everything you have'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Run to the Hills — Iron Maiden","Aces High — Iron Maiden","Trooper — Iron Maiden","Number of the Beast — Iron Maiden","Fear of the Dark — Iron Maiden","Wasted Years — Iron Maiden"]},
+      {num:8,title:"Alpe d'Huez",focus:"Simulating the famous 21-hairpin climb",segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:"Bourg d'Oisans Start",zone:2,durationMin:3,cue:'1000 riders begin'},{name:'Hairpins 21–17',zone:3,durationMin:5,cue:'Early gradient'},{name:'Hairpins 16–11',zone:4,durationMin:6,cue:'Steeper now'},{name:'Hairpins 10–7',zone:4,durationMin:5,cue:'Three-quarter distance'},{name:'Hairpins 6–1',zone:5,durationMin:4,cue:'FINAL HAIRPINS'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Alpe Summit',zone:1,durationMin:4,cue:"You topped Alpe d'Huez"},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Tour de France — Kraftwerk","Jump — Kris Kross","La Vie En Rose — Edith Piaf","Gold — Spandau Ballet","Heroes — David Bowie","Allez Allez Allez — Yellow"]},
+      {num:9,title:'Hill Repeats',focus:'Repeated climbing for adaptation',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Base Approach',zone:2,durationMin:5,cue:'Approach the base'},{name:'5x Hill Repeats',zone:4,durationMin:30,cue:'5x 4min hard / 2min descent'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Clocks — Coldplay","Speed of Sound — Coldplay","The Scientist — Coldplay","Fix You — Coldplay","Yellow — Coldplay","A Sky Full of Stars — Coldplay"]},
+      {num:10,title:'Queen of the Mountains',focus:'Complete climbing mastery',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Valley Roll-Out',zone:2,durationMin:4,cue:'Honour the occasion'},{name:'Seated Climb',zone:4,durationMin:5,cue:'Classic style'},{name:'Standing Climb',zone:4,durationMin:3,cue:'Race attack'},{name:'Strength Climb',zone:4,durationMin:3,cue:'Low cadence, max force'},{name:'Hill Sprint',zone:5,durationMin:2,cue:'Sprint on the climb'},{name:'Summit Push',zone:5,durationMin:3,cue:'Final 500 metres'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Polka Dot Victory',zone:1,durationMin:4,cue:'Queen/King of the Mountains'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Volare — Domenico Modugno","Mamma Mia — ABBA","I Love Rock'n'Roll — Joan Jett","We Built This City — Starship","Don't Stop Believin' — Journey","Living on a Prayer — Bon Jovi"]},
+    ]
+  },
+  { id:'intervals', name:'Interval Training', color:'#E67E22', duration:45, icon:'⚡',
+    desc:'10-class interval training course — from basics to VO2max',
+    classes:[
+      {num:1,title:'Interval Foundations',focus:'Work/rest principles',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Test Effort',zone:4,durationMin:2,cue:'Find Zone 4'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'4x Intervals',zone:4,durationMin:20,cue:'4x 2min Zone 4 / 3min recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Lose Yourself — Eminem","Not Afraid — Eminem","Rap God — Eminem","Guts Over Fear — Eminem","Till I Collapse — Eminem","Beautiful — Eminem"]},
+      {num:2,title:'2:2 Intervals',focus:'Equal work and rest',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Build Up',zone:2,durationMin:4,cue:'Focus the mind'},{name:'6x 2:2 Intervals',zone:4,durationMin:24,cue:'6x 2min hard / 2min easy'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Harder Better Faster Stronger — Daft Punk","Technologic — Daft Punk","Digital Love — Daft Punk","Face to Face — Daft Punk","Instant Crush — Daft Punk","Get Lucky — Daft Punk"]},
+      {num:3,title:'3-Minute Power Blocks',focus:'Threshold building',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Progressive Warm',zone:2,durationMin:4,cue:'Build the engine'},{name:'5x Power Blocks',zone:4,durationMin:22,cue:'5x 3min threshold / 90sec recovery'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Supermassive Black Hole — Muse","Hysteria — Muse","Time Is Running Out — Muse","Madness — Muse","Resistance — Muse","Starlight — Muse"]},
+      {num:4,title:'Pyramid Intervals',focus:'Progressive effort management',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Build In',zone:2,durationMin:3,cue:'Approach the pyramid'},{name:'Pyramid 1-2-3-4-3-2-1',zone:4,durationMin:27,cue:'Build then descend with equal recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["The Dark Knight Theme — Hans Zimmer","Time — Hans Zimmer","Interstellar Main Theme — Hans Zimmer","Why So Serious — Hans Zimmer","He's a Pirate — Hans Zimmer","You're Welcome — Dwayne Johnson"]},
+      {num:5,title:'Over-Under Intervals',focus:'Lactate threshold training',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Threshold Prep',zone:3,durationMin:5,cue:'Settle at threshold pace'},{name:'5x Over-Under',zone:4,durationMin:20,cue:'5x 1min over / 1min under threshold'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Seven Nation Army — The White Stripes","Icky Thump — The White Stripes","Ball and Biscuit — The White Stripes","Hotel Yorba — The White Stripes","Fell in Love with a Girl — The White Stripes","We're Going to Be Friends — The White Stripes"]},
+      {num:6,title:'30/30 Intervals',focus:'VO2 max development',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Activation',zone:2,durationMin:5,cue:'Prepare'},{name:'20x 30/30',zone:5,durationMin:20,cue:'20 rounds: 30 sec ON / 30 sec OFF'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Firestarter — Prodigy","Breathe — Prodigy","No Good — Prodigy","Out of Space — Prodigy","Smack My Bitch Up — Prodigy","Climbatize — Prodigy"]},
+      {num:7,title:'Threshold Clusters',focus:'Accumulated threshold time',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Build In',zone:2,durationMin:4,cue:'Three clusters ahead'},{name:'3x Threshold Clusters',zone:4,durationMin:24,cue:'3 clusters: 90sec/30sec/90sec/30sec/90sec + 3min rest'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Enter Sandman — Metallica","One — Metallica","Fade to Black — Metallica","For Whom the Bell Tolls — Metallica","Battery — Metallica","Nothing Else Matters — Metallica"]},
+      {num:8,title:'Broken Threshold',focus:'FTP improvement',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'FTP Prep',zone:3,durationMin:4,cue:'Focus the mind'},{name:'8x Threshold',zone:4,durationMin:36,cue:'8x 3min Zone 4 / 90sec recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Power — Kanye West","Black Skinhead — Kanye West","Stronger — Kanye West","All Falls Down — Kanye West","Touch the Sky — Kanye West","Runaway — Kanye West"]},
+      {num:9,title:'VO2 Max Blocks',focus:'Maximum oxygen uptake',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'VO2 Prep',zone:3,durationMin:4,cue:'Prime the engine'},{name:'5x VO2 Blocks',zone:5,durationMin:40,cue:'5x 4min Zone 5 / 4min recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Afraid to Shoot Strangers — Iron Maiden","Run to the Hills — Iron Maiden","Two Minutes to Midnight — Iron Maiden","The Trooper — Iron Maiden","Hallowed Be Thy Name — Iron Maiden","Flight of Icarus — Iron Maiden"]},
+      {num:10,title:'The Interval Gauntlet',focus:'All interval protocols in one',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Pyramid Mini',zone:4,durationMin:5,cue:'1-2-2-1 pyramid'},{name:'30/30 Block',zone:5,durationMin:4,cue:'4x 30/30'},{name:'Threshold Hold',zone:4,durationMin:4,cue:'4 minutes sustained'},{name:'Sprint Finish',zone:5,durationMin:2,cue:'Everything left'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Gauntlet Survivor',zone:1,durationMin:5,cue:'You survived the gauntlet'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eye of the Tiger — Survivor","Burning Heart — Survivor","Is This the Real Life — Queen","We Will Rock You / We Are The Champions — Queen","Somebody to Love — Queen","Don't Stop Me Now — Queen"]},
+    ]
+  },
+  { id:'tabata', name:'Tabata', color:'#C0392B', duration:30, icon:'🔥',
+    desc:'10-class Tabata protocol course — 20/10 intervals from beginner to championship',
+    classes:[
+      {num:1,title:'Tabata Introduction',focus:'20/10 protocol basics',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Protocol Explanation',zone:1,durationMin:2,cue:'20 sec ALL OUT, 10 sec rest, 8 times'},{name:'Tabata Round 1',zone:5,durationMin:4,cue:'8x 20sec max / 10sec rest'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Tabata Round 2',zone:5,durationMin:4,cue:'Equal effort'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Stronger (What Doesn't Kill You) — Kelly Clarkson","Work B**ch — Britney Spears","Run the World — Beyoncé","Roar — Katy Perry","Fight Song — Rachel Platten","Rise Up — Andra Day"]},
+      {num:2,title:'Three Round Tabata',focus:'Building Tabata volume',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'3x Tabata',zone:5,durationMin:18,cue:'3 rounds Tabata with 3min between'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Rude Boy — Rihanna","S&M — Rihanna","Only Girl — Rihanna","We Found Love — Rihanna","Umbrella — Rihanna","Stay — Rihanna"]},
+      {num:3,title:'Alternating Tabata',focus:'Varied effort in Tabata format',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Sprint Tabata',zone:5,durationMin:4,cue:'Fast legs, light resistance'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Climb Tabata',zone:5,durationMin:4,cue:'Heavy resistance'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Choice Tabata',zone:5,durationMin:4,cue:'Your choice'},{name:'Cool Down',zone:1,durationMin:3,cue:'Bring it home'}],music:["Fast Car — Tracy Chapman","Jump — Van Halen","Black Dog — Led Zeppelin","Kashmir — Led Zeppelin","Rock and Roll — Led Zeppelin","Stairway to Heaven — Led Zeppelin"]},
+      {num:4,title:'Tabata Ladder',focus:'Progressive Tabata intensity',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'4x Tabata Ladder 70%→MAX',zone:5,durationMin:18,cue:'Round 1 70%, round 2 80%, round 3 90%, round 4 MAX'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Hey Ya! — OutKast","B.O.B. — OutKast","Rosa Parks — OutKast","Ms. Jackson — OutKast","The Way You Move — OutKast","Roses — OutKast"]},
+      {num:5,title:'Double Tabata',focus:'Extended Tabata volume',segments:[{name:'Warm-Up',zone:1,durationMin:3,cue:'Brief warm up'},{name:'Tabata Blocks 1–4',zone:5,durationMin:18,cue:'4 rounds Tabata / 90sec between'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Tabata Blocks 5–8',zone:5,durationMin:18,cue:'Final 4 rounds'},{name:'Cool Down',zone:1,durationMin:3,cue:'Bring it home'}],music:["Sandstorm — Darude","Around the World — Daft Punk","Strobe — deadmau5","Ghosts 'n' Stuff — deadmau5","Professional Griefers — deadmau5","I Remember — deadmau5 & Kaskade"]},
+      {num:6,title:'Tabata Strength',focus:'Strength-based Tabata',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'3x Strength Tabata',zone:5,durationMin:18,cue:'3 rounds heavy slow Tabata / 3min between'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["War Pigs — Black Sabbath","Iron Man — Black Sabbath","Paranoid — Black Sabbath","Children of the Grave — Black Sabbath","Sabbath Bloody Sabbath — Black Sabbath","Changes — Black Sabbath"]},
+      {num:7,title:'Tabata Intervals Hybrid',focus:'Tabata meets traditional intervals',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Tabata 1',zone:5,durationMin:4,cue:'20/10 x8'},{name:'Sustained Interval 1',zone:4,durationMin:4,cue:'4min threshold'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Tabata 2',zone:5,durationMin:4,cue:'Second Tabata'},{name:'Sustained Interval 2',zone:4,durationMin:4,cue:'Second sustained'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eminence Front — The Who","Baba O'Riley — The Who","My Generation — The Who","Who Are You — The Who","Pinball Wizard — The Who","Behind Blue Eyes — The Who"]},
+      {num:8,title:'Negative Split Tabata',focus:'Pacing and negative splits',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'3x Tabata Negative Split',zone:5,durationMin:14,cue:'Round 1 controlled, round 2 harder, round 3 fastest'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Best Day of My Life — American Authors","Something Good Can Work — Two Door Cinema Club","What's My Age Again? — Blink-182","The Rock Show — Blink-182","I Miss You — Blink-182","All the Small Things — Blink-182"]},
+      {num:9,title:'Partner Tabata',focus:'Motivation through competition',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Partner Work Rounds 1–3',zone:5,durationMin:12,cue:'A goes / B cheers — 3 rounds each'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Partner Work Rounds 4–6',zone:5,durationMin:12,cue:'Final 3 rounds each'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Can't Hold Us — Macklemore","Thrift Shop — Macklemore","Wings — Macklemore","Same Love — Macklemore","Ryan Lewis — Macklemore","And We Danced — Macklemore"]},
+      {num:10,title:'Tabata Championship',focus:'Tabata personal best',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'5x Championship Tabata',zone:5,durationMin:25,cue:'5 rounds maximum effort Tabata / 2min between'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eye of the Tiger — Survivor","Gonna Fly Now — Bill Conti","Jump Around — House of Pain","Till I Collapse — Eminem","Lose Yourself — Eminem","Hall of Fame — The Script ft. will.i.am"]},
+    ]
+  },
+  { id:'ladders', name:'Ladders', color:'#8E44AD', duration:45, icon:'🔺',
+    desc:'10-class ladder training course — cadence, resistance and time ladders',
+    classes:[
+      {num:1,title:'What is a Ladder?',focus:'Introduction to ladder protocols',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Concept Ladder',zone:3,durationMin:8,cue:'Build effort each step'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Resistance Ladder',zone:4,durationMin:8,cue:'Add gear every 2 min'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Levels — Avicii","Wake Me Up — Avicii","Without You — Avicii","Hey Brother — Avicii","Addicted to You — Avicii","The Nights — Avicii"]},
+      {num:2,title:'Minute Ladders',focus:'1-2-3-4-3-2-1 structure',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Build In',zone:2,durationMin:3,cue:'Approach the base'},{name:'Full 1-2-3-4-3-2-1 Ladder',zone:4,durationMin:32,cue:'Equal work and rest each step'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eye of the Tiger — Survivor","The Final Countdown — Europe","Jump — Van Halen","Don't Stop Believin' — Journey","We Built This City — Starship","Total Eclipse of the Heart — Bonnie Tyler"]},
+      {num:3,title:'RPM Ladders',focus:'Cadence progression',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'RPM Ladder 75→105',zone:3,durationMin:24,cue:'5 RPM steps up then reverse'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Stairway to Heaven — Led Zeppelin","Kashmir — Led Zeppelin","Immigrant Song — Led Zeppelin","Communication Breakdown — Led Zeppelin","Good Times Bad Times — Led Zeppelin","Babe I'm Gonna Leave You — Led Zeppelin"]},
+      {num:4,title:'Resistance Ladders',focus:'Progressive resistance increase',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Resistance Ladder 6→16→6',zone:4,durationMin:22,cue:'Add 2 gears every 2min, then remove'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Black — Pearl Jam","Even Flow — Pearl Jam","Jeremy — Pearl Jam","Alive — Pearl Jam","Better Man — Pearl Jam","Getting Heavier — Kamelot"]},
+      {num:5,title:'Double Ladders',focus:'Back-to-back ladders',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Ladder 1: 1-2-3-2-1',zone:4,durationMin:9,cue:'First complete ladder'},{name:'Active Recovery',zone:1,durationMin:5,cue:'5 min recovery'},{name:'Ladder 2: 1-2-3-2-1',zone:4,durationMin:9,cue:'Match ladder 1'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["We Found Love — Rihanna ft. Calvin Harris","Feel So Close — Calvin Harris","Summer — Calvin Harris","Outside — Calvin Harris","Acceptable in the 80s — Calvin Harris","Sweet Nothing — Calvin Harris"]},
+      {num:6,title:'Speed Ladders',focus:'High-cadence ladder',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Speed Ladder 90→120',zone:4,durationMin:15,cue:'6 RPM steps to maximum cadence'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Speed Endurance',zone:3,durationMin:8,cue:'Hold high cadence sustained'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Thunderstruck — AC/DC","Highway to Hell — AC/DC","Rock and Roll — Led Zeppelin","Whole Lotta Love — Led Zeppelin","Born to Run — Bruce Springsteen","Glory Days — Bruce Springsteen"]},
+      {num:7,title:'Mixed Ladders',focus:'Combining cadence and resistance ladders',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'RPM Ladder Up & Down',zone:3,durationMin:12,cue:'80→100→80 RPM'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Resistance Ladder Up & Down',zone:4,durationMin:11,cue:'Add then remove resistance'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Mr Brightside — The Killers","Human — The Killers","Somebody Told Me — The Killers","Smile Like You Mean It — The Killers","Jenny Was a Friend of Mine — The Killers","All These Things That I've Done — The Killers"]},
+      {num:8,title:'Power Ladders',focus:'High-resistance ladder protocol',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Power Ladder Gear 12→20→12',zone:5,durationMin:25,cue:'Heavy power ladder up and down'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Supermassive Black Hole — Muse","Hysteria — Muse","Plug In Baby — Muse","Uprising — Muse","Madness — Muse","Starlight — Muse"]},
+      {num:9,title:'Time Ladders',focus:'Extended ladder volume',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'5-4-3-2-1-1-2-3-4-5 Ladder',zone:4,durationMin:30,cue:'30 minutes of ladders — pace the 5s carefully'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Clocks — Coldplay","The Scientist — Coldplay","Yellow — Coldplay","Fix You — Coldplay","Speed of Sound — Coldplay","A Sky Full of Stars — Coldplay"]},
+      {num:10,title:'Ladder Championship',focus:'Ultimate ladder session',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Ladder 1: 1-2-3-2-1',zone:4,durationMin:9,cue:'First complete ladder'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Ladder 2: 1-2-3-2-1',zone:4,durationMin:9,cue:'Match ladder 1'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Ladder 3: 1-2-1',zone:5,durationMin:4,cue:'Final short ladder — maximum'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["We Are The Champions — Queen","Eye of the Tiger — Survivor","Born This Way — Lady Gaga","Edge of Glory — Lady Gaga","Bad Romance — Lady Gaga","Applause — Lady Gaga"]},
+    ]
+  },
+  { id:'tempo', name:'Tempo Training', color:'#16A085', duration:45, icon:'🎯',
+    desc:'10-class tempo development course — from Zone 3 basics to sweet spot mastery',
+    classes:[
+      {num:1,title:'What is Tempo?',focus:'Zone 3 orientation',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Zone 2 Foundation',zone:2,durationMin:6,cue:'Easy endurance base'},{name:'Tempo Introduction',zone:3,durationMin:8,cue:'Comfortably hard, rhythmic breathing'},{name:'Tempo Check',zone:3,durationMin:6,cue:'Can you say 5 words?'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Tempo Finish',zone:3,durationMin:4,cue:'Strong close'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Africa — Toto","Rosanna — Toto","99 Luftballons — Nena","Take On Me — a-ha","Don't You Forget About Me — Simple Minds","True — Spandau Ballet"]},
+      {num:2,title:'Sustained Tempo',focus:'Extended Zone 3 duration',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Zone 2 Build',zone:2,durationMin:5,cue:'Build towards tempo'},{name:'20 Minute Tempo Block',zone:3,durationMin:20,cue:'Even effort, rhythmic breathing'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Tempo Finish',zone:3,durationMin:4,cue:'Finish strong'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Running Up That Hill — Kate Bush","Cloudbusting — Kate Bush","Wuthering Heights — Kate Bush","The Hounds of Love — Kate Bush","Babooshka — Kate Bush","This Woman's Work — Kate Bush"]},
+      {num:3,title:'Tempo with Surges',focus:'Tempo interrupted by accelerations',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Tempo Base',zone:3,durationMin:5,cue:'Establish tempo pace'},{name:'10x Surges within Tempo',zone:3,durationMin:25,cue:'10x 30sec surges within Zone 3 ride'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Gold Digger — Kanye West","Stronger — Kanye West","All Falls Down — Kanye West","Touch the Sky — Kanye West","Power — Kanye West","Runaway — Kanye West"]},
+      {num:4,title:'Threshold Transition',focus:'Bridging Zone 3 to Zone 4',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'4x Tempo-Threshold Blocks',zone:3,durationMin:20,cue:'4x 3min tempo / 2min threshold'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Tempo Close',zone:3,durationMin:4,cue:'Return to tempo'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Smooth — Santana","Black Magic Woman — Santana","Oye Como Va — Santana","Evil Ways — Santana","Maria Maria — Santana","Put Your Lights On — Santana"]},
+      {num:5,title:'Sweet Spot Training',focus:'88–93% FTP',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Sweet Spot Block 1',zone:3,durationMin:12,cue:'88% FTP — optimal training intensity'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Sweet Spot Block 2',zone:3,durationMin:12,cue:'Same effort'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Starman — David Bowie","Heroes — David Bowie","Let's Dance — David Bowie","Space Oddity — David Bowie","Changes — David Bowie","Golden Years — David Bowie"]},
+      {num:6,title:'Tempo Endurance',focus:'Race-pace endurance at tempo',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Full Tempo Ride',zone:3,durationMin:32,cue:'32 minutes at race-pace tempo'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Hotel California — Eagles","Desperado — Eagles","Life in the Fast Lane — Eagles","Take It Easy — Eagles","One of These Nights — Eagles","Already Gone — Eagles"]},
+      {num:7,title:'Tempo Blocks',focus:'Multiple tempo blocks with minimal rest',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'4x 8min Tempo Blocks',zone:3,durationMin:35,cue:'4x 8min tempo / 60sec recovery'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Here I Go Again — Whitesnake","Is This Love — Whitesnake","Still of the Night — Whitesnake","Fool for Your Loving — Whitesnake","Now You're Gone — Whitesnake","Here I Go Again (Reprise) — Whitesnake"]},
+      {num:8,title:'Negative Split Tempo',focus:'Progressively increasing tempo',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'5x 5min Negative Split Blocks',zone:3,durationMin:25,cue:'Each 5min block slightly harder'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Ring of Fire — Johnny Cash","I Walk the Line — Johnny Cash","Folsom Prison Blues — Johnny Cash","Get Rhythm — Johnny Cash","Man in Black — Johnny Cash","Hurt — Johnny Cash"]},
+      {num:9,title:'Tempo Climbs',focus:'Maintaining tempo on simulated hill',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Flat Tempo',zone:3,durationMin:6,cue:'Establish effort'},{name:'3x Tempo Gradient Blocks',zone:3,durationMin:15,cue:'Add resistance while maintaining Zone 3 power'},{name:'Summit Sprint',zone:4,durationMin:2,cue:'Final push'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Descent Spin',zone:2,durationMin:5,cue:'Enjoy the descent'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Living on a Prayer — Bon Jovi","You Give Love a Bad Name — Bon Jovi","Bad Medicine — Bon Jovi","Wanted Dead or Alive — Bon Jovi","It's My Life — Bon Jovi","Livin' on a Prayer (extended) — Bon Jovi"]},
+      {num:10,title:'Tempo Graduation',focus:'Complete tempo mastery',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Sweet Spot 20',zone:3,durationMin:20,cue:'20 minutes sweet spot — your race pace'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Threshold 10',zone:4,durationMin:10,cue:'10 minutes at threshold — graduation push'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Don't Stop Me Now — Queen","Somebody to Love — Queen","I Want to Break Free — Queen","Radio Ga Ga — Queen","Bohemian Rhapsody — Queen","We Are The Champions — Queen"]},
+    ]
+  },
+  { id:'endurance', name:'Endurance', color:'#1a2744', duration:60, icon:'🏆',
+    desc:'10-class endurance building course — from aerobic base to the century ride',
+    classes:[
+      {num:1,title:'Endurance Foundations',focus:'Long slow distance fundamentals',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Zone 2 Sustained',zone:2,durationMin:40,cue:'40 minutes of pure aerobic base'},{name:'Active Recovery',zone:1,durationMin:4,cue:'Recover'},{name:'Endurance Finish',zone:2,durationMin:4,cue:'Final easy miles'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Wish You Were Here — Pink Floyd","Comfortably Numb — Pink Floyd","Time — Pink Floyd","Dogs — Pink Floyd","Learning to Fly — Pink Floyd","High Hopes — Pink Floyd"]},
+      {num:2,title:'Aerobic Development',focus:'Building aerobic capacity',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Zone 2 with 3x Zone 3 Insertions',zone:2,durationMin:47,cue:'3x 5min Zone 3 within Zone 2 ride'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["The Sound of Silence — Simon & Garfunkel","Mrs Robinson — Simon & Garfunkel","The Boxer — Simon & Garfunkel","Bridge Over Troubled Water — Simon & Garfunkel","America — Simon & Garfunkel","Homeward Bound — Simon & Garfunkel"]},
+      {num:3,title:'Tempo Endurance',focus:'Zone 3 sustained for 60 minutes',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Long Tempo',zone:3,durationMin:44,cue:'44 minutes at tempo — this is how champions train'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Bohemian Rhapsody — Queen","Stairway to Heaven — Led Zeppelin","November Rain — GNR","Echoes — Pink Floyd","A Day in the Life — Beatles","Layla — Derek and the Dominos"]},
+      {num:4,title:'Endurance with Climbs',focus:'Sustained aerobic with climbing elements',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'3x Endurance + Climb Blocks',zone:2,durationMin:46,cue:'3x 8min Zone 2 / 8min Zone 4 climb'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Kashmir — Led Zeppelin","Immigrant Song — Led Zeppelin","Achilles Last Stand — Led Zeppelin","Heartbreaker — Led Zeppelin","Ten Years Gone — Led Zeppelin","Rock and Roll — Led Zeppelin"]},
+      {num:5,title:'Fat Burning Ride',focus:'Zone 1–2 fat metabolism',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Fat Burning Zone',zone:1,durationMin:46,cue:'Zone 1–2 — this pace burns fat as primary fuel'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Waterfall — The Stone Roses","This Is the One — The Stone Roses","She Bangs the Drums — The Stone Roses","I Wanna Be Adored — The Stone Roses","Made of Stone — The Stone Roses","Love Spreads — The Stone Roses"]},
+      {num:6,title:'The Gran Fondo',focus:'Simulated long-distance event',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Gran Fondo Simulation',zone:3,durationMin:46,cue:'Rolling start, climbs, descents, feed zones, sprint'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Tour de France — Kraftwerk","Autobahn — Kraftwerk","The Model — Kraftwerk","Computer Love — Kraftwerk","Trans-Europe Express — Kraftwerk","Neon Lights — Kraftwerk"]},
+      {num:7,title:'Race Preparation',focus:'Simulating race-day demands',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Race Warm-Up Simulation',zone:2,durationMin:8,cue:'Controlled and focused'},{name:'Tempo Race Pace',zone:3,durationMin:15,cue:'Your race pace for an hour'},{name:'Threshold Surge',zone:4,durationMin:5,cue:'Race attack'},{name:'Tempo Recovery Pace',zone:3,durationMin:10,cue:'Recover at tempo'},{name:'Final Sprint',zone:5,durationMin:2,cue:'Sprint finish'},{name:'Active Recovery',zone:1,durationMin:3,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Eye of the Tiger — Survivor","Burning Heart — Survivor","Born to Run — Bruce Springsteen","The Promised Land — Bruce Springsteen","Badlands — Bruce Springsteen","Dancing in the Dark — Bruce Springsteen"]},
+      {num:8,title:'Sportive Simulation',focus:'Sportive-style pacing',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Sportive Simulation',zone:3,durationMin:47,cue:'Conservative start, steady middle, strong finish with feed zones'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["Long Road — Pearl Jam","Better Man — Pearl Jam","Just Breathe — Pearl Jam","Release — Pearl Jam","Black — Pearl Jam","Alive — Pearl Jam"]},
+      {num:9,title:'Endurance Test',focus:'Maximum sustainable aerobic effort',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'55 Minute Aerobic Test',zone:3,durationMin:55,cue:'Your endurance benchmark — hardest pace for 55 minutes'}],music:["Bohemian Rhapsody — Queen","Comfortably Numb — Pink Floyd","Hotel California — Eagles","Stairway to Heaven — Led Zeppelin","A Day in the Life — Beatles","Kashmir — Led Zeppelin"]},
+      {num:10,title:'The Century Ride',focus:'Endurance graduation',segments:[{name:'Warm-Up',zone:1,durationMin:5,cue:'Easy spin'},{name:'Miles 1–20',zone:2,durationMin:10,cue:'Resist the urge to push'},{name:'Miles 20–40',zone:2,durationMin:10,cue:'Training shows'},{name:'Miles 40–60',zone:3,durationMin:8,cue:'Aerobic systems primed'},{name:'Miles 60–70',zone:3,durationMin:7,cue:'Where rides are won'},{name:'Miles 70–90',zone:3,durationMin:7,cue:'Only 30 miles left'},{name:'Miles 90–100',zone:4,durationMin:5,cue:'Make every stroke count'},{name:'Active Recovery',zone:1,durationMin:2,cue:'Recover'},{name:'Cool Down',zone:1,durationMin:5,cue:'Bring it home'}],music:["We Are The Champions — Queen","Don't Stop Me Now — Queen","Somebody to Love — Queen","Bohemian Rhapsody — Queen","Radio Ga Ga — Queen","We Will Rock You / We Are The Champions — Queen"]},
+    ]
+  },
+];
+
+// ─── LIBRARY STATE ───
+let selectedCourseId = 'beginners';
+let libDurFilter = 'all';
+let plannerDate = new Date();
+
+// ─── STORAGE HELPERS ───
+function getHistory(){ try{ return JSON.parse(localStorage.getItem('classHistory')||'[]'); }catch(e){return[];} }
+function saveHistory(h){ localStorage.setItem('classHistory', JSON.stringify(h)); }
+function getSchedule(){ try{ return JSON.parse(localStorage.getItem('classSchedule')||'[]'); }catch(e){return[];} }
+function saveSchedule(s){ localStorage.setItem('classSchedule', JSON.stringify(s)); }
+
+function getCompletedClasses(){
+  return getHistory().map(h=>h.courseId+'_'+h.classNum);
+}
+
+function isCompleted(courseId, classNum){
+  return getHistory().some(h=>h.courseId===courseId && h.classNum===classNum);
+}
+
+function getNextClass(courseId){
+  const course = COURSES.find(c=>c.id===courseId);
+  if(!course) return null;
+  for(let cls of course.classes){
+    if(!isCompleted(courseId, cls.num)) return cls;
+  }
+  return null; // all done
+}
+
+function recordClassComplete(courseId, classNum, classTitle){
+  const history = getHistory();
+  // Avoid duplicates for same session
+  const now = new Date();
+  history.unshift({
+    courseId, classNum, classTitle,
+    courseName: (COURSES.find(c=>c.id===courseId) || {}).name || courseId,
+    date: now.toISOString(),
+    dateDisplay: now.toLocaleDateString('en-GB', {weekday:'short', day:'numeric', month:'short', year:'numeric'}),
+    timeDisplay: now.toLocaleTimeString('en-GB', {hour:'2-digit', minute:'2-digit'})
+  });
+  // Keep max 200 entries
+  if(history.length > 200) history.length = 200;
+  saveHistory(history);
+}
+
+// ─── LIBRARY RENDER ───
+function renderLibrary(){
+  renderCourseList();
+  renderClassGrid();
+  renderHistory();
+  renderPlanner();
+  populateScheduleSelects();
+  // Set today's date in schedule input
+  const di = document.getElementById('schedDate');
+  if(di) di.valueAsDate = new Date();
+}
+
+function setLibDurFilter(dur, btn){
+  libDurFilter = dur;
+  document.querySelectorAll('.lib-dur-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCourseList();
+}
+
+function renderCourseList(){
+  const list = document.getElementById('courseList');
+  if(!list) return;
+  list.innerHTML = '';
+  const filtered = COURSES.filter(c => libDurFilter==='all' || c.duration===libDurFilter);
+  filtered.forEach(course=>{
+    const completed = course.classes.filter(cl=>isCompleted(course.id, cl.num)).length;
+    const pct = Math.round((completed/course.classes.length)*100);
+    const next = getNextClass(course.id);
+    const item = document.createElement('div');
+    item.className = 'course-item' + (selectedCourseId===course.id?' active':'');
+    item.style.borderLeftColor = course.color;
+    item.innerHTML = `
+      <div class="course-item-name" style="color:${course.color}">${course.icon} ${course.name}</div>
+      <div class="course-item-meta">${course.duration} min · ${course.classes.length} classes · ${completed} done</div>
+      <div class="course-progress-bar">
+        <div class="course-progress-fill" style="width:${pct}%;background:${course.color}"></div>
+      </div>
+      <div class="course-progress-label">${pct}% complete${next ? ' · Next: Class '+next.num : ' · ✓ Complete!'}</div>
+    `;
+    item.onclick = ()=>{ selectedCourseId=course.id; renderCourseList(); renderClassGrid(); };
+    list.appendChild(item);
+  });
+}
+
+function renderClassGrid(){
+  const course = COURSES.find(c=>c.id===selectedCourseId);
+  if(!course){ return; }
+  document.getElementById('libMainTitle').textContent = course.icon+' '+course.name;
+  document.getElementById('libMainSubtitle').textContent = course.desc+' · '+course.duration+' min per class';
+
+  const nextCls = getNextClass(course.id);
+  const badge = document.getElementById('libNextBadge');
+  if(nextCls){ badge.style.display='block'; badge.textContent=`▶ Next: Class ${nextCls.num}`; }
+  else { badge.style.display='none'; }
+
+  const grid = document.getElementById('classGrid');
+  grid.innerHTML = '';
+  course.classes.forEach(cls=>{
+    const done = isCompleted(course.id, cls.num);
+    const isNext = nextCls && nextCls.num===cls.num;
+    const historyEntry = getHistory().find(h=>h.courseId===course.id && h.classNum===cls.num);
+
+    const card = document.createElement('div');
+    card.className = 'class-card'+(done?' completed':'')+(isNext?' next-up':'');
+    card.style.setProperty('--card-color', course.color);
+    card.style.cssText += `--card-color:${course.color}`;
+    card.querySelector ? null : null;
+
+    // Apply top colour bar via ::before using inline style trick
+    card.innerHTML = `
+      <style>.class-card-${course.id}-${cls.num}::before{background:${course.color}!important}</style>
+      <div class="class-card-num">CLASS ${cls.num} OF ${course.classes.length}</div>
+      <div class="class-card-title">${cls.title}</div>
+      <div class="class-card-focus">${cls.focus}</div>
+      <div class="class-card-meta">
+        <span class="class-meta-tag">${course.duration} min</span>
+        <span class="class-meta-tag">${cls.segments.length} segments</span>
+        ${done && historyEntry ? `<span class="class-meta-tag done-date">✓ ${historyEntry.dateDisplay}</span>` : ''}
+      </div>
+      <button class="class-load-btn" onclick="loadLibraryClass('${course.id}',${cls.num});event.stopPropagation()">
+        ${isNext ? '▶ Load Next Class' : done ? '↺ Run Again' : '▶ Load Class'}
+      </button>
+    `;
+    card.classList.add(`class-card-${course.id}-${cls.num}`);
+    card.style.cssText += `;border-top:3px solid ${course.color}`;
+    grid.appendChild(card);
+  });
+}
+
+function loadLibraryClass(courseId, classNum){
+  const course = COURSES.find(c=>c.id===courseId);
+  if(!course) return;
+  const cls = course.classes.find(c=>c.num===classNum);
+  if(!cls) return;
+
+  // Convert to SEGMENTS format
+  SEGMENTS = cls.segments.map(function(s){ return {
+    name: s.name,
+    zone: s.zone,
+    durationMin: s.durationMin,
+    cue: s.cue
+  }; });
+
+  // Reset class state
+  elapsed=0; segIdx=0; segElapsed=0; running=false;
+  clearInterval(timer);
+  document.getElementById('startBtn').textContent='▶ START';
+  document.getElementById('startBtn').className='ctrl-btn primary';
+
+  // Store what's loaded for auto-recording
+  window._loadedCourse = { courseId, classNum, classTitle: cls.title };
+
+  renderAll();
+  showPageDirect('instructor');
+  toast(`✓ Loaded: ${course.name} — Class ${classNum}: ${cls.title}`);
+
+  // Populate demo music queue with this class's tracks
+  if(cls.music && cls.music.length){
+    // Update demo tracks display
+    document.getElementById('npSong').textContent = cls.music[0].split(' — ')[0] || cls.music[0];
+    document.getElementById('npArtist').textContent = cls.music[0].split(' — ')[1] || '';
+  }
+}
+
+// ─── AUTO-RECORD when class completes ───
+const _origTick = null;
+function checkAndRecordCompletion(){
+  if(window._loadedCourse && !running && elapsed >= totalSeconds() && totalSeconds() > 0){
+    const {courseId, classNum, classTitle} = window._loadedCourse;
+    if(!isCompleted(courseId, classNum)){
+      recordClassComplete(courseId, classNum, classTitle);
+      window._loadedCourse = null;
+      toast('✓ Class recorded in your history!');
+    }
+  }
+}
+
+// ─── HISTORY RENDER ───
+function renderHistory(){
+  const list = document.getElementById('historyList');
+  if(!list) return;
+  const history = getHistory();
+  if(!history.length){
+    list.innerHTML = '<div class="history-empty">No classes recorded yet — complete a class to start your history</div>';
+    return;
+  }
+  list.innerHTML = '';
+  history.slice(0,20).forEach((h,i)=>{
+    const course = COURSES.find(c=>c.id===h.courseId);
+    const color = course ? course.color : '#6B7A99';
+    const row = document.createElement('div');
+    row.className = 'history-item';
+    row.innerHTML = `
+      <div class="history-dot" style="background:${color}"></div>
+      <div class="history-info">
+        <div class="history-class">${h.classTitle}</div>
+        <div class="history-course">${h.courseName} · Class ${h.classNum}</div>
+      </div>
+      <div class="history-date">${h.dateDisplay}<br>${h.timeDisplay}</div>
+      <button class="history-del" onclick="deleteHistory(${i})" title="Remove">✕</button>
+    `;
+    list.appendChild(row);
+  });
+  if(history.length > 20){
+    list.innerHTML += `<div style="font-family:var(--mono);font-size:.65rem;color:var(--muted);padding:8px 0">+ ${history.length-20} more entries</div>`;
+  }
+}
+
+function deleteHistory(idx){
+  const h = getHistory();
+  h.splice(idx,1);
+  saveHistory(h);
+  renderHistory();
+  renderCourseList();
+  renderClassGrid();
+  renderPlanner();
+}
+
+// ─── PLANNER ───
+function renderPlanner(){
+  const grid = document.getElementById('plannerGrid');
+  if(!grid) return;
+
+  const year = plannerDate.getFullYear();
+  const month = plannerDate.getMonth();
+  const today = new Date();
+  const schedule = getSchedule();
+  const history = getHistory();
+
+  document.getElementById('plannerMonthLabel').textContent =
+    plannerDate.toLocaleDateString('en-GB',{month:'long',year:'numeric'});
+
+  // Day headers
+  const days = ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  grid.innerHTML = days.map(d=>`<div style="font-family:var(--display);font-weight:700;font-size:.6rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);text-align:center;padding:4px 0">${d}</div>`).join('');
+
+  const firstDay = new Date(year, month, 1);
+  const lastDay = new Date(year, month+1, 0);
+  // Start on Monday
+  let startDow = firstDay.getDay(); // 0=Sun
+  startDow = startDow === 0 ? 6 : startDow-1; // convert to Mon=0
+
+  // Empty cells
+  for(let i=0;i<startDow;i++){
+    grid.innerHTML += '<div></div>';
+  }
+
+  for(let d=1;d<=lastDay.getDate();d++){
+    const dateStr = `${year}-${String(month+1).padStart(2,'0')}-${String(d).padStart(2,'0')}`;
+    const isToday = today.getFullYear()===year && today.getMonth()===month && today.getDate()===d;
+    const scheduled = schedule.filter(s=>s.date===dateStr);
+    const done = history.filter(h=>h.date && h.date.startsWith(dateStr));
+
+    let cls = 'planner-day';
+    if(isToday) cls += ' today';
+    if(scheduled.length) cls += ' has-class';
+    if(done.length) cls += ' has-history';
+
+    const schedContent = scheduled.map(s=>`<div class="planner-day-content">${s.courseName.substring(0,6)}</div>`).join('');
+    const doneContent = done.length ? `<div class="planner-day-done">✓${done.length}</div>` : '';
+
+    grid.innerHTML += `<div class="${cls}" title="${scheduled.map(s=>s.className).join(', ')}" onclick="plannerDayClick('${dateStr}')">
+      <div class="planner-day-label">${['M','T','W','T','F','S','S'][(d+startDow-1)%7]}</div>
+      <div class="planner-day-num">${d}</div>
+      ${schedContent}${doneContent}
+    </div>`;
+  }
+
+  renderScheduleRows();
+}
+
+function plannerMonth(dir){
+  plannerDate = new Date(plannerDate.getFullYear(), plannerDate.getMonth()+dir, 1);
+  renderPlanner();
+}
+
+function plannerDayClick(dateStr){
+  document.getElementById('schedDate').value = dateStr;
+}
+
+function renderScheduleRows(){
+  const rows = document.getElementById('scheduleRows');
+  if(!rows) return;
+  const schedule = getSchedule();
+  const today = new Date().toISOString().split('T')[0];
+  const upcoming = schedule.filter(s=>s.date>=today).sort((a,b)=>a.date.localeCompare(b.date));
+
+  if(!upcoming.length){
+    rows.innerHTML = '<div class="history-empty">No classes scheduled — add one below</div>';
+    return;
+  }
+  rows.innerHTML = '';
+  upcoming.forEach((s,i)=>{
+    const course = COURSES.find(c=>c.id===s.courseId);
+    const color = course ? course.color : '#6B7A99';
+    const dateObj = new Date(s.date+'T12:00:00');
+    const dateStr = dateObj.toLocaleDateString('en-GB',{weekday:'short',day:'numeric',month:'short'});
+    const row = document.createElement('div');
+    row.className = 'schedule-row';
+    row.innerHTML = `
+      <div class="sched-date">${dateStr}</div>
+      <div class="sched-course" style="background:${color}"></div>
+      <div class="sched-info">
+        <div class="sched-name">${s.className}</div>
+        <div class="sched-detail">${s.courseName} · Class ${s.classNum} · ${s.duration} min</div>
+      </div>
+      <div class="sched-actions">
+        <button class="sched-btn load" onclick="loadScheduledClass('${s.courseId}',${s.classNum})">▶ Load</button>
+        <button class="sched-btn del" onclick="deleteSchedule(${schedule.indexOf(s)})">✕</button>
+      </div>
+    `;
+    rows.appendChild(row);
+  });
+}
+
+function populateScheduleSelects(){
+  const cs = document.getElementById('schedCourseSelect');
+  const cls = document.getElementById('schedClassSelect');
+  if(!cs || !cls) return;
+
+  cs.innerHTML = COURSES.map(c=>`<option value="${c.id}">${c.icon} ${c.name}</option>`).join('');
+  cs.onchange = ()=>{
+    const course = COURSES.find(c=>c.id===cs.value);
+    if(course) cls.innerHTML = course.classes.map(cl=>`<option value="${cl.num}">Class ${cl.num}: ${cl.title}</option>`).join('');
+  };
+  cs.onchange();
+}
+
+function addScheduledClass(){
+  const date = document.getElementById('schedDate').value;
+  const courseId = document.getElementById('schedCourseSelect').value;
+  const classNum = parseInt(document.getElementById('schedClassSelect').value);
+  if(!date) { toast('Please select a date'); return; }
+
+  const course = COURSES.find(c=>c.id===courseId);
+  const cls = course ? course.classes.find(c=>c.num===classNum) : null;
+  if(!course || !cls) return;
+
+  const schedule = getSchedule();
+  schedule.push({
+    date, courseId, classNum,
+    courseName: course.name,
+    className: cls.title,
+    duration: course.duration,
+    icon: course.icon
+  });
+  saveSchedule(schedule);
+  renderPlanner();
+  toast(`✓ Scheduled: ${cls.title} on ${date}`);
+}
+
+function deleteSchedule(idx){
+  const s = getSchedule();
+  s.splice(idx,1);
+  saveSchedule(s);
+  renderPlanner();
+}
+
+function loadScheduledClass(courseId, classNum){
+  loadLibraryClass(courseId, classNum);
+}
+
+// Auto-record completions on class end (handled in tick())
 
 // ─── INIT ───
 const EMBEDDED_CLIENT_ID = 'fddeea9a7dc04c6db99a96251e444262';
